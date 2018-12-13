@@ -91,20 +91,21 @@ class App extends Component {
             display: 'flex',
             justifyContent: 'center',
             flexWrap: 'wrap',
-            flex: 0.45,
+            flex: 0.3,
             height: '100%',
-            overflow: 'hidden auto'
+            overflow: 'hidden auto',
+            borderRight: '1px solid #eaeaea'
           }}
         >
-          {stickers.map(x => (
+          {stickers.map((x, i) => (
             <div
-              key={x.url}
+              key={i}
               style={{
                 backgroundImage: `url(${x.url})`,
                 backgroundSize: 'contain',
                 backgroundRepeat: 'no-repeat',
-                height: '80px',
-                width: '80px',
+                height: '70px',
+                width: '70px',
                 margin: '15px',
                 cursor: 'pointer'
               }}
@@ -113,28 +114,60 @@ class App extends Component {
           ))}
         </div>
         <div
-          className="teste"
           style={{
-            flex: 1,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flex: 0.7,
             height: '100%',
-            position: 'relative',
-            backgroundColor: 'red'
+            position: 'relative'
           }}
         >
-          {selected.map(x => (
-            <Draggable key={x.url} bounds="parent" handle=".handle">
-              <div
-                className="handle"
-                style={{
-                  backgroundImage: `url(${x.url})`,
-                  backgroundSize: 'contain',
-                  backgroundRepeat: 'no-repeat',
-                  height: '80px',
-                  width: '80px'
-                }}
-              />
-            </Draggable>
-          ))}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              position: 'relative',
+              width: '85%'
+            }}
+          >
+            <img
+              class="mac"
+              src="https://stackstickers.shop/mac.png"
+              width="100%"
+            />
+            <div
+              style={{
+                position: 'absolute',
+                top: '0',
+                right: '0',
+                bottom: '0',
+                left: '0'
+              }}
+            >
+              {selected.map((x, i) => (
+                <Draggable
+                  key={i}
+                  bounds="parent"
+                  handle=".handle"
+                  defaultPosition={{ x: 25, y: 25 }}
+                >
+                  <div
+                    className="handle"
+                    style={{
+                      backgroundImage: `url(${x.url})`,
+                      backgroundSize: 'contain',
+                      backgroundRepeat: 'no-repeat',
+                      height: '70px',
+                      width: '70px',
+                      position: 'absolute'
+                    }}
+                  />
+                </Draggable>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     );
