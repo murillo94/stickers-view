@@ -10,12 +10,17 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",
+    "@babel/plugin-proposal-class-properties": "^7.2.1",
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
     "parcel-bundler": "^1.10.3"
   },
   "dependencies": {
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3"
+    "immutability-helper": "^2.9.0",
+    "react": ">= 16.3",
+    "react-dnd": "^7.0.2",
+    "react-dnd-html5-backend": "^7.0.2",
+    "react-dom": "^16.6.3",
+    "react-draggable": "^3.0.5"
   }
 }
