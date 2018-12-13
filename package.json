@@ -1,0 +1,21 @@
+{
+  "name": "stickers-view",
+  "version": "1.0.0",
+  "repository": "git@github.com:murillo94/stickers-view.git",
+  "author": "Murillo de Miranda Pereira <murillobeta0@hotmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "parcel src/index.html -d dev -p 8080",
+    "prod": "parcel build src/index.html -d docs"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "@babel/preset-react": "^7.0.0",
+    "parcel-bundler": "^1.10.3"
+  },
+  "dependencies": {
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  }
+}
