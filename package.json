@@ -21,6 +21,7 @@
     "react-dnd": "^7.0.2",
     "react-dnd-html5-backend": "^7.0.2",
     "react-dom": "^16.6.3",
-    "react-draggable": "^3.0.5"
+    "react-draggable": "^3.0.5",
+    "styled-components": "^4.1.2"
   }
 }

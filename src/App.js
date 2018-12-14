@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Draggable from 'react-draggable';
+import styled from 'styled-components';
 
 const stickers = [
   { url: 'https://stackstickers.shop/images/dino.png' },
@@ -64,6 +65,88 @@ const stickers = [
   { url: 'https://ih1.redbubble.net/image.500219631.7359/sticker,375x375.png' }
 ];
 
+const Wrapper = styled.div`
+  display: flex;
+  height: 100%;
+`;
+
+const List = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex: 0.3;
+  height: 100%;
+  background-color: #f2f2f2;
+  border-right: 1px solid #eaeaea;
+  overflow: hidden auto;
+`;
+
+const ListBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 8px;
+  height: 80px;
+  width: 80px;
+  margin: 10px;
+`;
+
+const ListItem = styled.div`
+  background-image: url(${({ url }) => url});
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 52px;
+  width: 52px;
+  cursor: pointer;
+  transition: transform 0.25s;
+  &:hover {
+    transform: translateY(-10px);
+  }
+`;
+
+const View = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0.7;
+  height: 100%;
+  position: relative;
+`;
+
+const ViewPC = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 85%;
+`;
+
+const ImagePC = styled.img`
+  width: 100%;
+`;
+
+const ViewDrag = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+`;
+
+const ViewItem = styled.div`
+  background-image: url(${({ url }) => url});
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 70px;
+  width: 70px;
+  position: absolute;
+  cursor: grab;
+  &:active {
+    cursor: grabbing;
+  }
+`;
+
 class App extends Component {
   state = {
     stickers: stickers,
@@ -80,72 +163,22 @@ class App extends Component {
     const { stickers, selected } = this.state;
 
     return (
-      <div
-        style={{
-          display: 'flex',
-          height: '100%'
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-            flex: 0.3,
-            height: '100%',
-            overflow: 'hidden auto',
-            borderRight: '1px solid #eaeaea'
-          }}
-        >
+      <Wrapper>
+        <List>
           {stickers.map((x, i) => (
-            <div
-              key={i}
-              style={{
-                backgroundImage: `url(${x.url})`,
-                backgroundSize: 'contain',
-                backgroundRepeat: 'no-repeat',
-                height: '70px',
-                width: '70px',
-                margin: '15px',
-                cursor: 'pointer'
-              }}
-              onClick={() => this.handleSelect(x.url)}
-            />
+            <ListBox>
+              <ListItem
+                key={i}
+                url={x.url}
+                onClick={() => this.handleSelect(x.url)}
+              />
+            </ListBox>
           ))}
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flex: 0.7,
-            height: '100%',
-            position: 'relative'
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              position: 'relative',
-              width: '85%'
-            }}
-          >
-            <img
-              class="mac"
-              src="https://stackstickers.shop/mac.png"
-              width="100%"
-            />
-            <div
-              style={{
-                position: 'absolute',
-                top: '0',
-                right: '0',
-                bottom: '0',
-                left: '0'
-              }}
-            >
+        </List>
+        <View>
+          <ViewPC>
+            <ImagePC src="https://stackstickers.shop/mac.png" />
+            <ViewDrag>
               {selected.map((x, i) => (
                 <Draggable
                   key={i}
@@ -153,23 +186,13 @@ class App extends Component {
                   handle=".handle"
                   defaultPosition={{ x: 25, y: 25 }}
                 >
-                  <div
-                    className="handle"
-                    style={{
-                      backgroundImage: `url(${x.url})`,
-                      backgroundSize: 'contain',
-                      backgroundRepeat: 'no-repeat',
-                      height: '70px',
-                      width: '70px',
-                      position: 'absolute'
-                    }}
-                  />
+                  <ViewItem className="handle" url={x.url} />
                 </Draggable>
               ))}
-            </div>
-          </div>
-        </div>
-      </div>
+            </ViewDrag>
+          </ViewPC>
+        </View>
+      </Wrapper>
     );
   }
 }
