@@ -1,73 +1,19 @@
 import React, { Component } from 'react';
 import Draggable from 'react-draggable';
 import styled from 'styled-components';
+import Resizable from 're-resizable';
 
-const stickers = [
-  { url: 'https://stackstickers.shop/images/dino.png' },
-  { url: 'https://stackstickers.shop/images/javascript.png' },
-  { url: 'https://stackstickers.shop/images/npm.png' },
-  { url: 'https://stackstickers.shop/images/angular.png' },
-  { url: 'https://stackstickers.shop/images/react.png' },
-  { url: 'https://stackstickers.shop/images/vue.png' },
-  { url: 'https://stackstickers.shop/images/emotion.png' },
-  { url: 'https://stackstickers.shop/images/sass.png' },
-  { url: 'https://stackstickers.shop/images/nodejs.png' },
-  { url: 'https://stackstickers.shop/images/styled-components.png' },
-  { url: 'https://stackstickers.shop/images/webpack.png' },
-  { url: 'https://stackstickers.shop/images/redux.png' },
-  { url: 'https://stackstickers.shop/images/css.png' },
-  { url: 'https://stackstickers.shop/images/yarn.png' },
-  { url: 'https://stackstickers.shop/images/graphql.png' },
-  { url: 'https://stackstickers.shop/images/preact.png' },
-  { url: 'https://stackstickers.shop/images/typescript.png' },
-  { url: 'https://stackstickers.shop/images/html.png' },
-  { url: 'https://ih1.redbubble.net/image.281754037.2838/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.213498029.1630/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.246611714.0222/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.200517086.1716/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.294054237.6463/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.317673520.2838/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.91883508.9596/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.361919136.3753/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.361921157.3811/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.199188173.6366/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.529903029.3879/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.357283962.8641/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.194102819.4911/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.441997446.7936/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.319480726.6606/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.361911711.3548/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.240125428.9267/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.642082586.0579/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.331019021.5456/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.294023201.8527/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.642081444.0602/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.428914186.0177/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.289285621.2542/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.561330546.9985/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.503964133.7671/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.240125082.9255/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.285088426.9345/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.397565901.9873/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.289553793.9672/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.503953324.7362/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.512419817.3962/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.439213317.4224/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.400854859.2569/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.318854606.8129/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.380752922.8495/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.439198187.3835/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.398734614.2498/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.220329873.9110/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.91918021.1078/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.370345714.1971/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.58958353.7561/sticker,375x375.png' },
-  { url: 'https://ih1.redbubble.net/image.500219631.7359/sticker,375x375.png' }
-];
+import { stickers } from './stickers.js';
+
+const source = 'https://ih1.redbubble.net/image.';
+const dimensions = '/st,extra_large,375x375.png';
 
 const Wrapper = styled.div`
   display: flex;
   height: 100%;
+  @media (max-width: 991px) {
+    display: block;
+  }
 `;
 
 const List = styled.div`
@@ -79,6 +25,14 @@ const List = styled.div`
   background-color: #f2f2f2;
   border-right: 1px solid #eaeaea;
   overflow: hidden auto;
+  @media (max-width: 991px) {
+    flex-direction: column;
+    height: 130px;
+    overflow: auto hidden;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
 `;
 
 const ListBox = styled.div`
@@ -92,14 +46,17 @@ const ListBox = styled.div`
   margin: 10px;
 `;
 
-const ListItem = styled.div`
-  background-image: url(${({ url }) => url});
+const ListItem = styled.div.attrs(props => {
+  title: props.title;
+})`
+  background-image: url(${({ id }) => source + id + dimensions});
   background-size: contain;
   background-repeat: no-repeat;
   height: 52px;
   width: 52px;
   cursor: pointer;
   transition: transform 0.25s;
+  will-change: transform;
   &:hover {
     transform: translateY(-10px);
   }
@@ -135,13 +92,13 @@ const ViewDrag = styled.div`
 `;
 
 const ViewItem = styled.div`
-  background-image: url(${({ url }) => url});
-  background-size: contain;
-  background-repeat: no-repeat;
+  position: absolute;
   height: 70px;
   width: 70px;
-  position: absolute;
   cursor: grab;
+  &:hover {
+    border: 2px dashed #c9c9c9;
+  }
   &:active {
     cursor: grabbing;
   }
@@ -153,9 +110,15 @@ class App extends Component {
     selected: []
   };
 
-  handleSelect = url => {
+  handleSelect = id => {
     this.setState(prevState => ({
-      selected: [...prevState.selected, { url }]
+      selected: [...prevState.selected, { id }]
+    }));
+  };
+
+  handleRemove = index => {
+    this.setState(prevState => ({
+      selected: [...prevState.selected.filter((x, i) => i !== index)]
     }));
   };
 
@@ -166,11 +129,11 @@ class App extends Component {
       <Wrapper>
         <List>
           {stickers.map((x, i) => (
-            <ListBox>
+            <ListBox key={i}>
               <ListItem
-                key={i}
-                url={x.url}
-                onClick={() => this.handleSelect(x.url)}
+                id={x.id}
+                title={x.title}
+                onClick={() => this.handleSelect(x.id)}
               />
             </ListBox>
           ))}
@@ -186,7 +149,30 @@ class App extends Component {
                   handle=".handle"
                   defaultPosition={{ x: 25, y: 25 }}
                 >
-                  <ViewItem className="handle" url={x.url} />
+                  <ViewItem id={`sticker-${i}`}>
+                    <Resizable
+                      className="handle"
+                      style={{
+                        backgroundImage: `url(${source + x.id + dimensions})`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        height: '70px',
+                        width: '70px'
+                      }}
+                      defaultSize={{
+                        width: 70,
+                        height: 70
+                      }}
+                      lockAspectRatio
+                      onResize={(e, direction, ref, d) => {
+                        document.getElementById(`sticker-${i}`).style.height =
+                          ref.style.height;
+                        document.getElementById(`sticker-${i}`).style.width =
+                          ref.style.width;
+                      }}
+                      onDoubleClick={() => this.handleRemove(i)}
+                    />
+                  </ViewItem>
                 </Draggable>
               ))}
             </ViewDrag>
