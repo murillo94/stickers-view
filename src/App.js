@@ -1,12 +1,42 @@
 import React, { Component } from 'react';
 import Draggable from 'react-draggable';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import Resizable from 're-resizable';
 
 import { stickers } from './stickers.js';
 
+const macImage = require('../assets/mac.png');
+
 const source = 'https://ih1.redbubble.net/image.';
 const dimensions = '/st,extra_large,375x375.png';
+
+const GlobalStyle = createGlobalStyle`
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+  }
+
+  #root {
+    height: 100%;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: #f5f5f5 !important;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #ccc !important;
+    border-radius: 20px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #eaeaea !important;
+    border-radius: 20px;
+  }
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -76,7 +106,7 @@ const ViewPC = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 85%;
+  width: 80%;
 `;
 
 const ImagePC = styled.img`
@@ -127,6 +157,7 @@ class App extends Component {
 
     return (
       <Wrapper>
+        <GlobalStyle />
         <List>
           {stickers.map((x, i) => (
             <ListBox key={i}>
@@ -140,7 +171,7 @@ class App extends Component {
         </List>
         <View>
           <ViewPC>
-            <ImagePC src="https://stackstickers.shop/mac.png" />
+            <ImagePC src={macImage} />
             <ViewDrag>
               {selected.map((x, i) => (
                 <Draggable
