@@ -1,5 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
+import { FixedSizeGrid } from 'react-window';
+
+import Cell from './Cell';
+
+const COLUMN_WIDTH = 97;
+const ROW_HEIGHT = 97;
 
 const Wrapper = styled.div`
   display: flex;
@@ -9,64 +15,76 @@ const Wrapper = styled.div`
   height: 100%;
   background-color: #f2f2f2;
   border-right: 1px solid #eaeaea;
-  overflow: hidden auto;
   @media (max-width: 991px) {
     flex-direction: column;
     height: 130px;
-    overflow: auto hidden;
     position: sticky;
     top: 0;
     z-index: 1;
   }
 `;
 
-const Box = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #fff;
-  border-radius: 8px;
-  height: 80px;
-  width: 80px;
-  margin: 10px;
-`;
+class List extends Component {
+  state = {
+    columns: 0,
+    width: 0,
+    height: 0,
+    items: {},
+    count: this.props.items.length
+  };
 
-const Item = styled.div.attrs(props => {
-  title: props.title;
-})`
-  background-image: url(${({ source, id, dimensions }) =>
-    source + id + dimensions});
-  background-size: contain;
-  background-repeat: no-repeat;
-  height: 52px;
-  width: 52px;
-  cursor: pointer;
-  transition: transform 0.25s;
-  will-change: transform;
-  &:hover {
-    transform: translateY(-10px);
+  renderCell = ({ rowIndex, columnIndex, style }) => {
+    const { items, source, dimensions, handleSelect } = this.props;
+    const item = items[rowIndex * this.state.columns + columnIndex];
+    return <Cell {...{ item, style, source, dimensions, handleSelect }} />;
+  };
+
+  recalcSize = () => {
+    const fullWidth =
+      window.innerWidth ||
+      document.documentElement.clientWidth ||
+      document.body.clientWidth;
+    const initialWidth = (fullWidth * 30) / 100;
+    const width =
+      fullWidth > 991
+        ? initialWidth
+        : document.getElementById('list').clientWidth;
+    const height = document.getElementById('list').offsetHeight;
+    const columns = Math.floor(width / COLUMN_WIDTH);
+
+    this.setState({
+      width,
+      height,
+      columns
+    });
+  };
+
+  componentDidMount() {
+    this.recalcSize();
+
+    window.addEventListener('resize', this.recalcSize);
   }
-`;
 
-const List = ({
-  data = [],
-  source = '',
-  dimensions = '',
-  handleSelect = null
-}) => (
-  <Wrapper>
-    {data.map((x, i) => (
-      <Box key={i}>
-        <Item
-          title={x.title}
-          id={x.id}
-          source={source}
-          dimensions={dimensions}
-          onClick={() => handleSelect(x.id)}
-        />
-      </Box>
-    ))}
-  </Wrapper>
-);
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.recalcSize);
+  }
+
+  render() {
+    return (
+      <Wrapper id="list">
+        <FixedSizeGrid
+          columnCount={this.state.columns}
+          columnWidth={COLUMN_WIDTH}
+          height={this.state.height}
+          rowCount={Math.floor(this.state.count / this.state.columns)}
+          rowHeight={ROW_HEIGHT}
+          width={this.state.width}
+        >
+          {this.renderCell}
+        </FixedSizeGrid>
+      </Wrapper>
+    );
+  }
+}
 
 export default List;
