@@ -11,6 +11,7 @@ const dimensions = '/st,extra_large,375x375.png';
 const GlobalStyle = createGlobalStyle`
   html,
   body {
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
     height: 100%;
     margin: 0;
   }

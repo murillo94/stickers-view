@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { FixedSizeGrid } from 'react-window';
 
+import Search from './Search';
 import Cell from './Cell';
 
 const COLUMN_WIDTH = 97;
@@ -12,7 +13,7 @@ const Wrapper = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   flex: 0.3;
-  height: 100%;
+  height: calc(100% - 122px);
   background-color: #f2f2f2;
   border-right: 1px solid #eaeaea;
   @media (max-width: 991px) {
@@ -61,7 +62,6 @@ class List extends Component {
 
   componentDidMount() {
     this.recalcSize();
-
     window.addEventListener('resize', this.recalcSize);
   }
 
@@ -71,18 +71,21 @@ class List extends Component {
 
   render() {
     return (
-      <Wrapper id="list">
-        <FixedSizeGrid
-          columnCount={this.state.columns}
-          columnWidth={COLUMN_WIDTH}
-          height={this.state.height}
-          rowCount={Math.floor(this.state.count / this.state.columns)}
-          rowHeight={ROW_HEIGHT}
-          width={this.state.width}
-        >
-          {this.renderCell}
-        </FixedSizeGrid>
-      </Wrapper>
+      <div>
+        <Search />
+        <Wrapper id="list">
+          <FixedSizeGrid
+            columnCount={this.state.columns}
+            columnWidth={COLUMN_WIDTH}
+            height={this.state.height}
+            rowCount={Math.floor(this.state.count / this.state.columns)}
+            rowHeight={ROW_HEIGHT}
+            width={this.state.width}
+          >
+            {this.renderCell}
+          </FixedSizeGrid>
+        </Wrapper>
+      </div>
     );
   }
 }
