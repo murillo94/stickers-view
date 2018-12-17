@@ -5,7 +5,7 @@ import * as JsSearch from 'js-search';
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
   padding: 20px;
   background-color: #eaeaea;
@@ -18,15 +18,23 @@ const Title = styled.h1`
   font-size: 27px;
   color: #333;
   margin: 0 0 15px;
+  width: 100%;
 `;
 
-const Input = styled.input`
+const Input = styled.input.attrs({
+  type: ({ inputType }) => inputType
+})`
   font-size: 12px;
   padding: 9px;
-  border-radius: 100px;
+  border-radius: 8px;
   box-shadow: none;
   border: 1px solid #eaeaea;
-  width: 85%;
+  width: 95%;
+  box-sizing: border-box;
+  transition: all .2s ease-in-out;
+  &:focus {
+    outline: none;
+    border-color: #bbbbbb;
 `;
 
 const Search = ({ data = [], actionSearch }) => {
@@ -45,8 +53,8 @@ const Search = ({ data = [], actionSearch }) => {
 
   return (
     <Wrapper>
-      <Title>Stickers View</Title>
-      <Input type="text" onChange={handleChange} />
+      <Title>Choose your stickers</Title>
+      <Input inputType="search" onChange={handleChange} />
     </Wrapper>
   );
 };
