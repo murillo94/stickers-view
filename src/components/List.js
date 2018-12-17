@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { FixedSizeGrid } from 'react-window';
+import { FixedSizeGrid, FixedSizeList } from 'react-window';
 
 import Search from './Search';
 import Cell from './Cell';
@@ -17,8 +17,6 @@ const Wrapper = styled.div`
   background-color: #f2f2f2;
   border-right: 1px solid #eaeaea;
   @media (max-width: 991px) {
-    flex-direction: column;
-    height: 130px;
     position: sticky;
     top: 0;
     z-index: 1;
@@ -27,16 +25,35 @@ const Wrapper = styled.div`
 
 class List extends Component {
   state = {
-    columns: 0,
-    width: 0,
     height: 0,
-    items: {},
-    count: this.props.items.length
+    width: 0,
+    fullWidth: 0,
+    columns: 0,
+    data: this.props.data,
+    count: this.props.data.length
   };
 
-  renderCell = ({ rowIndex, columnIndex, style }) => {
-    const { items, source, dimensions, handleSelect } = this.props;
-    const item = items[rowIndex * this.state.columns + columnIndex];
+  searchData = data => {
+    while (data.length % this.state.columns) {
+      data.push({ blank: true });
+    }
+    this.setState({ data, count: data.length });
+  };
+
+  renderCellGrid = ({ rowIndex, columnIndex, style }) => {
+    const { source, dimensions, handleSelect } = this.props;
+    const { data, columns } = this.state;
+    const item = data[rowIndex * columns + columnIndex];
+    if (!item.blank) {
+      return <Cell {...{ item, style, source, dimensions, handleSelect }} />;
+    }
+    return null;
+  };
+
+  renderCellList = ({ index, style }) => {
+    const { source, dimensions, handleSelect } = this.props;
+    const { data } = this.state;
+    const item = data[index];
     return <Cell {...{ item, style, source, dimensions, handleSelect }} />;
   };
 
@@ -54,8 +71,9 @@ class List extends Component {
     const columns = Math.floor(width / COLUMN_WIDTH);
 
     this.setState({
-      width,
       height,
+      width,
+      fullWidth,
       columns
     });
   };
@@ -70,20 +88,34 @@ class List extends Component {
   }
 
   render() {
+    const { fullWidth, columns, count, height, width, data } = this.state;
+
     return (
       <div>
-        <Search />
+        <Search data={this.props.data} actionSearch={this.searchData} />
         <Wrapper id="list">
-          <FixedSizeGrid
-            columnCount={this.state.columns}
-            columnWidth={COLUMN_WIDTH}
-            height={this.state.height}
-            rowCount={Math.floor(this.state.count / this.state.columns)}
-            rowHeight={ROW_HEIGHT}
-            width={this.state.width}
-          >
-            {this.renderCell}
-          </FixedSizeGrid>
+          {fullWidth > 991 ? (
+            <FixedSizeGrid
+              columnCount={columns}
+              columnWidth={COLUMN_WIDTH}
+              rowCount={Math.floor(count / columns)}
+              rowHeight={ROW_HEIGHT}
+              height={height}
+              width={width}
+            >
+              {this.renderCellGrid}
+            </FixedSizeGrid>
+          ) : (
+            <FixedSizeList
+              direction="horizontal"
+              height={130}
+              itemCount={data.length}
+              itemSize={97}
+              width={width}
+            >
+              {this.renderCellList}
+            </FixedSizeList>
+          )}
         </Wrapper>
       </div>
     );

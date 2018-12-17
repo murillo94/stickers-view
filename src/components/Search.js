@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import * as JsSearch from 'js-search';
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,11 +29,26 @@ const Input = styled.input`
   width: 85%;
 `;
 
-const Search = () => (
-  <Wrapper>
-    <Title>Stickers View</Title>
-    <Input type="text" />
-  </Wrapper>
-);
+const Search = ({ data = [], actionSearch }) => {
+  const [value, setValue] = useState('');
+
+  let searchData = new JsSearch.Search('id');
+  searchData.addIndex('title');
+  searchData.addIndex('tags');
+  searchData.addDocuments(data);
+
+  const handleChange = e => {
+    const res = e.target.value;
+    setValue(res);
+    actionSearch(res ? searchData.search(res) : data);
+  };
+
+  return (
+    <Wrapper>
+      <Title>Stickers View</Title>
+      <Input type="text" onChange={handleChange} />
+    </Wrapper>
+  );
+};
 
 export default Search;

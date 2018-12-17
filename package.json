@@ -18,11 +18,12 @@
   "dependencies": {
     "components": "^0.1.0",
     "immutability-helper": "^2.9.0",
+    "js-search": "^1.4.2",
     "re-resizable": "^4.10.0",
-    "react": "^16.6.3",
+    "react": "react@next",
+    "react-dom": "react-dom@next",
     "react-dnd": "^7.0.2",
     "react-dnd-html5-backend": "^7.0.2",
-    "react-dom": "^16.6.3",
     "react-draggable": "^3.0.5",
     "react-window": "^1.3.1",
     "styled-components": "^4.1.2"

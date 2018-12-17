@@ -70,7 +70,7 @@ class App extends Component {
       <Wrapper>
         <GlobalStyle />
         <List
-          items={stickers}
+          data={stickers}
           source={source}
           dimensions={dimensions}
           handleSelect={this.handleSelect}
