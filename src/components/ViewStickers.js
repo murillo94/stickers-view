@@ -34,6 +34,14 @@ const Drag = styled.div`
   left: 0;
 `;
 
+const Dimension = styled.div`
+  background-color: transparent;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 5px;
+  opacity: 0;
+`;
+
 const Item = styled.div`
   position: absolute;
   height: 70px;
@@ -41,11 +49,16 @@ const Item = styled.div`
   cursor: grab;
   &:hover {
     border: 2px dashed #c9c9c9;
+    ${Dimension} {
+      opacity: 1;
+    }
   }
   &:active {
     cursor: grabbing;
   }
 `;
+
+const findId = id => document.getElementById(id);
 
 const ViewStickers = ({
   data = [],
@@ -57,18 +70,18 @@ const ViewStickers = ({
     <View>
       <Image src={macImage} />
       <Drag>
-        {data.map((x, i) => (
+        {data.map((item, index) => (
           <Draggable
-            key={i}
+            key={index}
             bounds="parent"
             handle=".handle"
             defaultPosition={{ x: 25, y: 25 }}
           >
-            <Item id={`sticker-${i}`}>
+            <Item id={`sticker-${index}`}>
               <Resizable
                 className="handle"
                 style={{
-                  backgroundImage: `url(${source + x.id + dimensions})`,
+                  backgroundImage: `url(${source + item.id + dimensions})`,
                   backgroundSize: 'contain',
                   backgroundRepeat: 'no-repeat',
                   height: '70px',
@@ -80,13 +93,15 @@ const ViewStickers = ({
                 }}
                 lockAspectRatio
                 onResize={(e, direction, ref, d) => {
-                  document.getElementById(`sticker-${i}`).style.height =
-                    ref.style.height;
-                  document.getElementById(`sticker-${i}`).style.width =
-                    ref.style.width;
+                  findId(`sticker-${index}`).style.height = ref.style.height;
+                  findId(`sticker-${index}`).style.width = ref.style.width;
+                  findId(`dimension-${index}`).innerHTML = `${parseInt(
+                    ref.style.height
+                  )}x${parseInt(ref.style.width)} (px)`;
                 }}
-                onDoubleClick={() => handleRemove(i)}
+                onDoubleClick={() => handleRemove(index)}
               />
+              <Dimension id={`dimension-${index}`}>70x70 (px)</Dimension>
             </Item>
           </Draggable>
         ))}

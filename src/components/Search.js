@@ -21,8 +21,8 @@ const Title = styled.h1`
   width: 100%;
 `;
 
-const Input = styled.input.attrs({
-  type: ({ inputType }) => inputType
+const Input = styled.input.attrs(props => {
+  type: props.type;
 })`
   font-size: 12px;
   padding: 9px;
@@ -54,7 +54,7 @@ const Search = ({ data = [], actionSearch }) => {
   return (
     <Wrapper>
       <Title>Choose your stickers</Title>
-      <Input inputType="search" onChange={handleChange} />
+      <Input type="search" onChange={handleChange} />
     </Wrapper>
   );
 };
