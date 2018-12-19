@@ -30,7 +30,13 @@ const Item = styled.div.attrs(props => {
   }
 `;
 
-const Cell = ({ item, style, source, dimensions, handleSelect }) => (
+const Cell = ({
+  item = {},
+  style = {},
+  source = '',
+  dimensions = '',
+  handleSelect = null
+}) => (
   <div style={style}>
     <Box>
       <Item
