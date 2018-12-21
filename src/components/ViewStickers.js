@@ -70,7 +70,7 @@ const ViewStickers = ({
     <View>
       <Image src={macImage} />
       <Drag>
-        {data.map((item, index) => (
+        {Object.keys(data).map(index => (
           <Draggable
             key={index}
             bounds="parent"
@@ -81,7 +81,7 @@ const ViewStickers = ({
               <Resizable
                 className="handle"
                 style={{
-                  backgroundImage: `url(${source + item.id + dimensions})`,
+                  backgroundImage: `url(${source + data[index] + dimensions})`,
                   backgroundSize: 'contain',
                   backgroundRepeat: 'no-repeat',
                   height: '70px',

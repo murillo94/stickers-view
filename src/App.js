@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
+import update from 'immutability-helper';
 
 import { stickers } from './stickers.js';
 import List from './components/List';
@@ -52,15 +53,29 @@ class App extends Component {
   };
 
   handleSelect = id => {
-    this.setState(prevState => ({
-      selected: [...prevState.selected, { id }]
-    }));
+    this.setState(prevState => {
+      const list = { ...prevState.selected };
+      const length = Object.keys(list).length;
+      list[id + length] = id;
+      return {
+        selected: list
+      };
+    });
   };
 
   handleRemove = index => {
-    this.setState(prevState => ({
-      selected: [...prevState.selected.filter((x, i) => i !== index)]
-    }));
+    this.setState(prevState => {
+      const list = { ...prevState.selected };
+      const listFiltered = Object.keys(list)
+        .filter(key => key !== index)
+        .reduce((obj, key) => {
+          obj[key] = list[key];
+          return obj;
+        }, {});
+      return {
+        selected: listFiltered
+      };
+    });
   };
 
   render() {
