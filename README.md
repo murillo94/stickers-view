@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="Logo da da Univ. Católica de Santa Catarina" src="assets/favicon.png" height="80" width="80" />
+    <img alt="Logo da da Univ. Católica de Santa Catarina" src="assets/favicon.png" height="100" width="100" />
     <h3 align="center">
         Stickers View
     </h3>
