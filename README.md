@@ -10,4 +10,4 @@
 
 ---
 
-A view which can simulate a add sticker, zoom, drag, delete it.
+Before you buy anything on the internet it would be so cool if you could test it before. With Stickers View you can simulate and add, scale and delete it.
