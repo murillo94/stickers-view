@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "components": "^0.1.0",
-    "immutability-helper": "^2.9.0",
     "js-search": "^1.4.2",
     "re-resizable": "^4.10.0",
     "react": "react@next",

@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import update from 'immutability-helper';
 
-import { stickers } from './stickers.js';
-import List from './components/List';
-import ViewStickers from './components/ViewStickers';
-
-const source = 'https://ih1.redbubble.net/image.';
-const dimensions = '/st,extra_large,375x375.png';
+import stickers from './data/stickers.json';
+import { source, dimensions } from './data/url';
+import List from './components/List/List';
+import ViewStickers from './components/View/ViewStickers';
 
 const GlobalStyle = createGlobalStyle`
   html,
