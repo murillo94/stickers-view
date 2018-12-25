@@ -23,7 +23,7 @@ const Item = styled.div.attrs(props => {
   height: 52px;
   width: 52px;
   cursor: pointer;
-  transition: transform 0.25s;
+  transition: transform 0.2s linear;
   will-change: transform;
   &:hover {
     transform: translateY(-10px);

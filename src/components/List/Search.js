@@ -31,7 +31,7 @@ const Input = styled.input.attrs(props => {
   border: 1px solid #eaeaea;
   width: 95%;
   box-sizing: border-box;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s linear;
   &:focus {
     outline: none;
     border-color: #bbbbbb;

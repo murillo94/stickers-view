@@ -38,7 +38,32 @@ const Dimension = styled.div`
   background-color: transparent;
   font-size: 13px;
   text-align: center;
-  margin-top: 5px;
+  margin-top: 7px;
+  cursor: default;
+  opacity: 0;
+`;
+
+const Options = styled.div`
+  position: absolute;
+  right: -30px;
+  top: -3px;
+  bottom: 0;
+  height: calc(100% + 5px);
+  width: 20px;
+  cursor: default;
+`;
+
+const Remove = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  background-color: #fff;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
   opacity: 0;
 `;
 
@@ -50,6 +75,9 @@ const Item = styled.div`
   &:hover {
     border: 2px dashed #c9c9c9;
     ${Dimension} {
+      opacity: 1;
+    }
+    ${Remove} {
       opacity: 1;
     }
   }
@@ -99,9 +127,11 @@ const ViewStickers = ({
                     ref.style.height
                   )}x${parseInt(ref.style.width)} (px)`;
                 }}
-                onDoubleClick={() => handleRemove(index)}
               />
               <Dimension id={`dimension-${index}`}>70x70 (px)</Dimension>
+              <Options>
+                <Remove onClick={() => handleRemove(index)}>x</Remove>
+              </Options>
             </Item>
           </Draggable>
         ))}
