@@ -77,14 +77,15 @@ const OptionIcon = styled.img.attrs(props => {
   alt: props.alt;
 })`
   pointer-events: none;
+  user-select: none;
   height: 14px;
   width: 14px;
 `;
 
 const Item = styled.div`
   position: absolute;
-  height: 70px;
-  width: 70px;
+  height: 75px;
+  width: 75px;
   cursor: grab;
   &:hover {
     border: 2px dashed #c9c9c9;
@@ -102,11 +103,11 @@ const Item = styled.div`
 
 const findId = id => document.getElementById(id);
 
-const handleRotate = id => {
+const handleRotate = (id, position) => {
   let rotate =
-    Number(findId(id).style.transform.replace(/[^0-9\.]+/g, '')) || 0;
-  rotate = rotate < 360 ? rotate : 0;
-  findId(id).style.transform = `rotate(${rotate + 1}deg)`;
+    Number(findId(id).style.transform.replace(/[^0-9\.?-]+/g, '')) || 0;
+  const res = position === 'right' ? rotate + 15 : rotate + -15;
+  findId(id).style.transform = `rotate(${res}deg)`;
 };
 
 const ViewStickers = ({
@@ -134,12 +135,12 @@ const ViewStickers = ({
                   backgroundImage: `url(${source + data[index] + dimensions})`,
                   backgroundSize: 'contain',
                   backgroundRepeat: 'no-repeat',
-                  height: '70px',
-                  width: '70px'
+                  height: '75px',
+                  width: '75px'
                 }}
                 defaultSize={{
-                  width: 70,
-                  height: 70
+                  width: 75,
+                  height: 75
                 }}
                 lockAspectRatio
                 onResize={(e, direction, ref, d) => {
@@ -150,7 +151,7 @@ const ViewStickers = ({
                   )}x${parseInt(ref.style.width)} (px)`;
                 }}
               />
-              <Dimension id={`dimension-${index}`}>70x70 (px)</Dimension>
+              <Dimension id={`dimension-${index}`}>75x75 (px)</Dimension>
               <OptionsView>
                 <OptionButton onClick={() => handleRemove(index)}>
                   <OptionIcon
@@ -158,10 +159,20 @@ const ViewStickers = ({
                     alt="Remove sticker"
                   />
                 </OptionButton>
-                <OptionButton onClick={() => handleRotate(`rotate-${index}`)}>
+                <OptionButton
+                  onClick={() => handleRotate(`rotate-${index}`, 'right')}
+                >
                   <OptionIcon
                     src="https://icon.now.sh/rotate_right"
-                    alt="Rotate sticker"
+                    alt="Rotate right sticker"
+                  />
+                </OptionButton>
+                <OptionButton
+                  onClick={() => handleRotate(`rotate-${index}`, 'left')}
+                >
+                  <OptionIcon
+                    src="https://icon.now.sh/rotate_left"
+                    alt="Rotate left sticker"
                   />
                 </OptionButton>
               </OptionsView>
