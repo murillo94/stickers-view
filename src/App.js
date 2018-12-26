@@ -29,6 +29,10 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 20px;
   }
 
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #b7b7b7 !important;
+  }
+
   ::-webkit-scrollbar-track {
     background-color: #eaeaea !important;
     border-radius: 20px;
