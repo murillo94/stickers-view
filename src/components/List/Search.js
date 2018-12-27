@@ -31,10 +31,11 @@ const Input = styled.input.attrs(props => {
   border: 1px solid #eaeaea;
   width: 95%;
   box-sizing: border-box;
-  transition: all 0.2s linear;
+  transition: all 0.1s ease-in;
   &:focus {
     outline: none;
-    border-color: #bbbbbb;
+    border-color: #c1c1c1;
+    box-shadow: 0px 2px 5px rgba(180,180,180,0.1);
 `;
 
 const Search = ({ data = [], actionSearch }) => {

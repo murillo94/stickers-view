@@ -72,14 +72,16 @@ const OptionButton = styled.div`
   }
 `;
 
-const OptionIcon = styled.img.attrs(props => {
-  src: props.src;
-  alt: props.alt;
+const OptionIcon = styled.div.attrs(props => {
+  title: props.title;
 })`
-  pointer-events: none;
-  user-select: none;
+  background-image: url(${({ source }) => source});
+  background-size: contain;
+  background-repeat: no-repeat;
   height: 14px;
   width: 14px;
+  pointer-events: none;
+  user-select: none;
 `;
 
 const Item = styled.div`
@@ -101,13 +103,20 @@ const Item = styled.div`
   }
 `;
 
-const findId = id => document.getElementById(id);
-
-const handleRotate = (id, position) => {
-  let rotate =
-    Number(findId(id).style.transform.replace(/[^0-9\.?-]+/g, '')) || 0;
+const changeRotate = (elem, position) => {
+  let rotate = Number(elem.style.transform.replace(/[^0-9\.?-]+/g, '')) || 0;
   const res = position === 'right' ? rotate + 15 : rotate + -15;
-  findId(id).style.transform = `rotate(${res}deg)`;
+  elem.style.transform = `rotate(${res}deg)`;
+};
+
+const changeSize = (elem, ref) => {
+  elem.style.height = ref.style.height;
+  elem.style.width = ref.style.width;
+};
+
+const changeTextDimension = (elem, ref) => {
+  elem.innerHTML = `${parseInt(ref.style.height)}x
+  ${parseInt(ref.style.width)} (px)`;
 };
 
 const ViewStickers = ({
@@ -115,73 +124,89 @@ const ViewStickers = ({
   source = '',
   dimensions = '',
   handleRemove = null
-}) => (
-  <Wrapper>
-    <View>
-      <Image src={macImage} />
-      <Drag>
-        {Object.keys(data).map(index => (
-          <Draggable
-            key={index}
-            bounds="parent"
-            handle=".handle"
-            defaultPosition={{ x: 25, y: 25 }}
-          >
-            <Item id={`sticker-${index}`}>
-              <Resizable
-                id={`rotate-${index}`}
-                className="handle"
-                style={{
-                  backgroundImage: `url(${source + data[index] + dimensions})`,
-                  backgroundSize: 'contain',
-                  backgroundRepeat: 'no-repeat',
-                  height: '75px',
-                  width: '75px'
-                }}
-                defaultSize={{
-                  width: 75,
-                  height: 75
-                }}
-                lockAspectRatio
-                onResize={(e, direction, ref, d) => {
-                  findId(`sticker-${index}`).style.height = ref.style.height;
-                  findId(`sticker-${index}`).style.width = ref.style.width;
-                  findId(`dimension-${index}`).innerHTML = `${parseInt(
-                    ref.style.height
-                  )}x${parseInt(ref.style.width)} (px)`;
-                }}
-              />
-              <Dimension id={`dimension-${index}`}>75x75 (px)</Dimension>
-              <OptionsView>
-                <OptionButton onClick={() => handleRemove(index)}>
-                  <OptionIcon
-                    src="https://icon.now.sh/delete"
-                    alt="Remove sticker"
-                  />
-                </OptionButton>
-                <OptionButton
-                  onClick={() => handleRotate(`rotate-${index}`, 'right')}
-                >
-                  <OptionIcon
-                    src="https://icon.now.sh/rotate_right"
-                    alt="Rotate right sticker"
-                  />
-                </OptionButton>
-                <OptionButton
-                  onClick={() => handleRotate(`rotate-${index}`, 'left')}
-                >
-                  <OptionIcon
-                    src="https://icon.now.sh/rotate_left"
-                    alt="Rotate left sticker"
-                  />
-                </OptionButton>
-              </OptionsView>
-            </Item>
-          </Draggable>
-        ))}
-      </Drag>
-    </View>
-  </Wrapper>
-);
+}) => {
+  let refs = {
+    dimension: [],
+    rotate: [],
+    textDimension: []
+  };
+
+  const setRef = (ref, type) => {
+    if (ref) {
+      const item = type === 'rotate' ? ref.resizable : ref;
+      refs[type].push(item);
+    }
+  };
+
+  return (
+    <Wrapper>
+      <View>
+        <Image src={macImage} />
+        <Drag>
+          {Object.keys(data).map((index, key) => (
+            <Draggable
+              key={index}
+              bounds="parent"
+              handle=".handle"
+              defaultPosition={{ x: 25, y: 25 }}
+            >
+              <Item ref={value => setRef(value, 'dimension')}>
+                <Resizable
+                  ref={value => setRef(value, 'rotate')}
+                  className="handle"
+                  style={{
+                    backgroundImage: `url(${source +
+                      data[index] +
+                      dimensions})`,
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    height: '75px',
+                    width: '75px'
+                  }}
+                  defaultSize={{
+                    width: 75,
+                    height: 75
+                  }}
+                  lockAspectRatio
+                  onResize={(e, direction, ref, d) => {
+                    changeSize(refs.dimension[key], ref);
+                    changeTextDimension(refs.textDimension[key], ref);
+                  }}
+                />
+                <Dimension ref={value => setRef(value, 'textDimension')}>
+                  75x75 (px)
+                </Dimension>
+                <OptionsView>
+                  <OptionButton onClick={() => handleRemove(index)}>
+                    <OptionIcon
+                      source="https://icon.now.sh/delete"
+                      title="Remove sticker"
+                    />
+                  </OptionButton>
+                  <OptionButton
+                    onClick={() => changeRotate(refs.rotate[key], 'right')}
+                  >
+                    <OptionIcon
+                      source="https://icon.now.sh/rotate_right"
+                      title="Rotate right sticker"
+                    />
+                  </OptionButton>
+                  <OptionButton
+                    onClick={() => changeRotate(refs.rotate[key], 'left')}
+                  >
+                    <OptionIcon
+                      source="https://icon.now.sh/rotate_left"
+                      title="Rotate left sticker"
+                    />
+                  </OptionButton>
+                </OptionsView>
+              </Item>
+            </Draggable>
+          ))}
+        </Drag>
+      </View>
+    </Wrapper>
+  );
+};
 
 export default ViewStickers;
