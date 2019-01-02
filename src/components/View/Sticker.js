@@ -95,9 +95,9 @@ const Sticker = ({
       defaultPosition={{ x: posX, y: posY }}
       onStop={(e, { x, y }) => changePosition(value, x, y)}
     >
-      <Item ref={value => setRef(value, 'dimension', index)}>
+      <Item ref={value => setRef(value, 'dimension')}>
         <Resizable
-          ref={value => setRef(value, 'rotate', index)}
+          ref={value => setRef(value, 'rotate')}
           className="handle"
           style={{
             backgroundImage: `url(${urlImage})`,
@@ -116,7 +116,7 @@ const Sticker = ({
             changeTextDimension(index, ref);
           }}
         />
-        <Dimension ref={value => setRef(value, 'textDimension', index)}>
+        <Dimension ref={value => setRef(value, 'textDimension')}>
           75x75 (px)
         </Dimension>
         <OptionsView>

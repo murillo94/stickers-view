@@ -49,8 +49,8 @@ const ViewStickers = ({
     textDimension: []
   };
 
-  const setRef = (ref, type, key) => {
-    if (ref && !refs[type][key]) {
+  const setRef = (ref, type) => {
+    if (ref) {
       const item = type === 'rotate' ? ref.resizable : ref;
       refs[type].push(item);
     }
