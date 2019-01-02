@@ -43,43 +43,21 @@ const ViewStickers = ({
   handleSelect = null,
   handleRemove = null
 }) => {
-  let refs = {
-    dimension: [],
-    rotate: [],
-    textDimension: []
+  const changePosition = (id, posX, posY) => {
+    handleSelect(id, { posX, posY });
   };
 
-  const setRef = (ref, type) => {
-    if (ref) {
-      const item = ref;
-      refs[type].push(item);
-    }
-  };
-
-  const changePosition = (key, posX, posY) => {
-    handleSelect(key, posX, posY);
-  };
-
-  const changeRotate = (pos, position) => {
-    let item = refs.rotate[pos];
-    let rotate = Number(item.style.transform.replace(/[^0-9\.?-]+/g, '')) || 0;
+  const changeRotate = (id, position, transform) => {
+    let rotate = Number(transform.replace(/[^0-9\.?-]+/g, '')) || 0;
     const res = position === 'right' ? rotate + 15 : rotate + -15;
-    item.style.transform = `rotate(${res}deg)`;
+    handleSelect(id, { transform: `rotate(${res}deg)` });
   };
 
-  const changeSize = (pos, ref) => {
-    let itemDimension = refs.dimension[pos];
-    let itemSize = refs.rotate[pos];
-    itemDimension.style.height = ref.style.height;
-    itemDimension.style.width = ref.style.width;
-    itemSize.style.height = ref.style.height;
-    itemSize.style.width = ref.style.width;
-  };
-
-  const changeTextDimension = (pos, ref) => {
-    let item = refs.textDimension[pos];
-    item.innerHTML = `${parseInt(ref.style.height)}x
-    ${parseInt(ref.style.width)} (px)`;
+  const changeSize = (id, ref) => {
+    handleSelect(id, {
+      height: parseInt(ref.style.height),
+      width: parseInt(ref.style.width)
+    });
   };
 
   return (
@@ -87,20 +65,20 @@ const ViewStickers = ({
       <View>
         <Image src={macImage} />
         <Drag>
-          {Object.keys(data).map((value, key) => (
+          {Object.keys(data).map((id, key) => (
             <Sticker
               key={key}
-              value={value}
-              index={key}
-              posX={data[value].posX}
-              posY={data[value].posY}
-              urlImage={source + data[value].id + dimensions}
-              setRef={setRef}
+              id={id}
+              posX={data[id].posX}
+              posY={data[id].posY}
+              height={data[id].height}
+              width={data[id].width}
+              transform={data[id].transform}
+              url={source + data[id].id + dimensions}
               handleRemove={handleRemove}
               changePosition={changePosition}
               changeSize={changeSize}
               changeRotate={changeRotate}
-              changeTextDimension={changeTextDimension}
             />
           ))}
         </Drag>

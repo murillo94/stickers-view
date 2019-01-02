@@ -53,14 +53,26 @@ class App extends Component {
     selected: []
   };
 
-  handleSelect = (id, posX = 25, posY = 25) => {
+  handleSelect = (id, ...args) => {
     this.setState(prevState => {
       const list = { ...prevState.selected };
-      const length = Object.keys(list).length;
-      const key = list[id] ? id : id + length;
+      const key = list[id] ? id : id + Object.keys(list).length;
 
-      id = list[id] ? list[id]['id'] : id;
-      list[key] = { id, posX, posY };
+      if (args.length > 0) {
+        Object.keys(args[0]).map(value => {
+          list[key][value] = args[0][value];
+        });
+      } else {
+        list[key] = {
+          id,
+          posX: 25,
+          posY: 25,
+          height: 75,
+          width: 75,
+          transform: 'rotate(0deg)'
+        };
+      }
+
       return {
         selected: list
       };

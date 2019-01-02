@@ -57,8 +57,8 @@ const OptionIcon = styled.div.attrs(props => {
 
 const Item = styled.div`
   position: absolute;
-  height: 75px;
-  width: 75px;
+  height: ${({ height }) => height}px;
+  width: ${({ width }) => width}px;
   cursor: grab;
   &:hover {
     border: 2px dashed #c9c9c9;
@@ -78,32 +78,33 @@ const Image = styled.div`
   background-image: url(${({ source }) => source});
   background-size: contain;
   background-repeat: no-repeat;
-  height: 75px;
-  width: 75px;
+  height: ${({ height }) => height}px;
+  width: ${({ width }) => width}px;
+  transform: ${({ transform }) => transform};
 `;
 
 const Sticker = ({
-  value,
-  index,
+  id,
   posX,
   posY,
-  urlImage,
-  setRef,
+  height,
+  width,
+  transform,
+  url,
   handleRemove,
   changePosition,
   changeSize,
-  changeRotate,
-  changeTextDimension
+  changeRotate
 }) => {
   return (
     <Draggable
-      key={value}
+      key={id}
       bounds="parent"
       handle=".handle"
       defaultPosition={{ x: posX, y: posY }}
-      onStop={(e, { x, y }) => changePosition(value, x, y)}
+      onStop={(e, { x, y }) => changePosition(id, x, y)}
     >
-      <Item ref={value => setRef(value, 'dimension')}>
+      <Item height={height} width={width}>
         <Resizable
           className="handle"
           defaultSize={{
@@ -112,29 +113,33 @@ const Sticker = ({
           }}
           lockAspectRatio
           onResize={(e, direction, ref, d) => {
-            changeSize(index, ref);
-            changeTextDimension(index, ref);
+            changeSize(id, ref);
           }}
         >
-          <Image ref={value => setRef(value, 'rotate')} source={urlImage} />
+          <Image
+            source={url}
+            height={height}
+            width={width}
+            transform={transform}
+          />
         </Resizable>
-        <Dimension ref={value => setRef(value, 'textDimension')}>
-          75x75 (px)
+        <Dimension>
+          {height}x{width} (px)
         </Dimension>
         <OptionsView>
-          <OptionButton onClick={() => handleRemove(value)}>
+          <OptionButton onClick={() => handleRemove(id)}>
             <OptionIcon
               source="https://icon.now.sh/delete"
               title="Remove sticker"
             />
           </OptionButton>
-          <OptionButton onClick={() => changeRotate(index, 'right')}>
+          <OptionButton onClick={() => changeRotate(id, 'right', transform)}>
             <OptionIcon
               source="https://icon.now.sh/rotate_right"
               title="Rotate right sticker"
             />
           </OptionButton>
-          <OptionButton onClick={() => changeRotate(index, 'left')}>
+          <OptionButton onClick={() => changeRotate(id, 'left', transform)}>
             <OptionIcon
               source="https://icon.now.sh/rotate_left"
               title="Rotate left sticker"
