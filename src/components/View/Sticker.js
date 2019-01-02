@@ -85,16 +85,20 @@ const Image = styled.div`
 
 const Sticker = ({
   id,
+  index,
   posX,
   posY,
   height,
   width,
   transform,
   url,
+  setRef,
   handleRemove,
   changePosition,
   changeSize,
-  changeRotate
+  changeRotate,
+  changeRefSize,
+  changeRefTextDimension
 }) => {
   return (
     <Draggable
@@ -104,7 +108,11 @@ const Sticker = ({
       defaultPosition={{ x: posX, y: posY }}
       onStop={(e, { x, y }) => changePosition(id, x, y)}
     >
-      <Item height={height} width={width}>
+      <Item
+        ref={value => setRef(value, 'dimension')}
+        height={height}
+        width={width}
+      >
         <Resizable
           className="handle"
           defaultSize={{
@@ -113,17 +121,22 @@ const Sticker = ({
           }}
           lockAspectRatio
           onResize={(e, direction, ref, d) => {
+            changeRefSize(index, ref);
+            changeRefTextDimension(index, ref);
+          }}
+          onResizeStop={(e, direction, ref, d) => {
             changeSize(id, ref);
           }}
         >
           <Image
+            ref={value => setRef(value, 'size')}
             source={url}
             height={height}
             width={width}
             transform={transform}
           />
         </Resizable>
-        <Dimension>
+        <Dimension ref={value => setRef(value, 'textDimension')}>
           {height}x{width} (px)
         </Dimension>
         <OptionsView>
