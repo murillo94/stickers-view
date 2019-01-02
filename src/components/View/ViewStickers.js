@@ -51,7 +51,7 @@ const ViewStickers = ({
 
   const setRef = (ref, type) => {
     if (ref) {
-      const item = type === 'rotate' ? ref.resizable : ref;
+      const item = ref;
       refs[type].push(item);
     }
   };
@@ -68,9 +68,12 @@ const ViewStickers = ({
   };
 
   const changeSize = (pos, ref) => {
-    let item = refs.dimension[pos];
-    item.style.height = ref.style.height;
-    item.style.width = ref.style.width;
+    let itemDimension = refs.dimension[pos];
+    let itemSize = refs.rotate[pos];
+    itemDimension.style.height = ref.style.height;
+    itemDimension.style.width = ref.style.width;
+    itemSize.style.height = ref.style.height;
+    itemSize.style.width = ref.style.width;
   };
 
   const changeTextDimension = (pos, ref) => {

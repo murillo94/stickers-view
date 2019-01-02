@@ -74,6 +74,14 @@ const Item = styled.div`
   }
 `;
 
+const Image = styled.div`
+  background-image: url(${({ source }) => source});
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 75px;
+  width: 75px;
+`;
+
 const Sticker = ({
   value,
   index,
@@ -97,15 +105,7 @@ const Sticker = ({
     >
       <Item ref={value => setRef(value, 'dimension')}>
         <Resizable
-          ref={value => setRef(value, 'rotate')}
           className="handle"
-          style={{
-            backgroundImage: `url(${urlImage})`,
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            height: '75px',
-            width: '75px'
-          }}
           defaultSize={{
             width: 75,
             height: 75
@@ -115,7 +115,9 @@ const Sticker = ({
             changeSize(index, ref);
             changeTextDimension(index, ref);
           }}
-        />
+        >
+          <Image ref={value => setRef(value, 'rotate')} source={urlImage} />
+        </Resizable>
         <Dimension ref={value => setRef(value, 'textDimension')}>
           75x75 (px)
         </Dimension>
