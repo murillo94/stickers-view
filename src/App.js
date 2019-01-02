@@ -53,11 +53,14 @@ class App extends Component {
     selected: []
   };
 
-  handleSelect = id => {
+  handleSelect = (id, posX = 25, posY = 25) => {
     this.setState(prevState => {
       const list = { ...prevState.selected };
       const length = Object.keys(list).length;
-      list[id + length] = id;
+      const key = list[id] ? id : id + length;
+
+      id = list[id] ? list[id]['id'] : id;
+      list[key] = { id, posX, posY };
       return {
         selected: list
       };
@@ -95,6 +98,7 @@ class App extends Component {
           data={selected}
           source={source}
           dimensions={dimensions}
+          handleSelect={this.handleSelect}
           handleRemove={this.handleRemove}
         />
       </Wrapper>
