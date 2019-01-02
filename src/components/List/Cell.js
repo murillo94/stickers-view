@@ -1,6 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const Item = styled.div.attrs(props => {
+  title: props.title;
+})`
+  background-image: url(${({ source, id, dimensions }) =>
+    source + id + dimensions});
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 52px;
+  width: 52px;
+  transition: transform 0.2s linear;
+  will-change: transform;
+`;
+
 const Box = styled.div`
   position: relative;
   display: flex;
@@ -11,22 +24,11 @@ const Box = styled.div`
   height: 80px;
   width: 80px;
   margin: 20px;
-`;
-
-const Item = styled.div.attrs(props => {
-  title: props.title;
-})`
-  background-image: url(${({ source, id, dimensions }) =>
-    source + id + dimensions});
-  background-size: contain;
-  background-repeat: no-repeat;
-  height: 52px;
-  width: 52px;
   cursor: pointer;
-  transition: transform 0.2s linear;
-  will-change: transform;
   &:hover {
-    transform: translateY(-10px);
+    ${Item} {
+      transform: translateY(-10px);
+    }
   }
 `;
 
@@ -38,13 +40,12 @@ const Cell = ({
   handleSelect = null
 }) => (
   <div style={style}>
-    <Box>
+    <Box onClick={() => handleSelect(item.id)}>
       <Item
         title={item.title}
         id={item.id}
         source={source}
         dimensions={dimensions}
-        onClick={() => handleSelect(item.id)}
       />
     </Box>
   </div>
