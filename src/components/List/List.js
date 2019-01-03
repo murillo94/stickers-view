@@ -16,6 +16,7 @@ const Wrapper = styled.div`
   height: calc(100% - 122px);
   background-color: #f2f2f2;
   border-right: 1px solid #eaeaea;
+  -webkit-overflow-scrolling: touch;
   @media (max-width: 991px) {
     position: sticky;
     top: 0;
@@ -112,6 +113,7 @@ class List extends Component {
               itemCount={data.length}
               itemSize={97}
               width={width}
+              style={{ padding: '0 20px' }}
             >
               {this.renderCellList}
             </FixedSizeList>
