@@ -1,32 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
+import Img from 'react-image';
 
-const Item = styled.div.attrs(props => {
-  title: props.title;
-})`
-  background-image: url(${({ source, id, dimensions }) =>
-    source + id + dimensions});
-  background-size: contain;
-  background-repeat: no-repeat;
-  height: 52px;
-  width: 52px;
+import Loader from './Loader';
+
+const Image = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: transform 0.2s linear;
   will-change: transform;
 `;
 
-const Box = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #fff;
-  border-radius: 8px;
+const Wrapper = styled.div`
   height: 80px;
   width: 80px;
+  position: relative;
+  background-color: #fff;
+  border-radius: 8px;
   margin: 20px;
   cursor: pointer;
   &:hover {
-    ${Item} {
+    ${Image} {
       transform: translateY(-10px);
     }
   }
@@ -40,14 +37,18 @@ const Cell = ({
   handleSelect = null
 }) => (
   <div style={style}>
-    <Box onClick={() => handleSelect(item.id)}>
-      <Item
-        title={item.title}
-        id={item.id}
-        source={source}
-        dimensions={dimensions}
+    <Wrapper onClick={() => handleSelect(item.id)}>
+      <Img
+        src={source + item.id + dimensions}
+        alt={item.title}
+        height={52}
+        width={52}
+        loader={<Loader />}
+        container={img => {
+          return <Image>{img}</Image>;
+        }}
       />
-    </Box>
+    </Wrapper>
   </div>
 );
 

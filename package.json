@@ -20,10 +20,11 @@
     "js-search": "^1.4.2",
     "re-resizable": "^4.10.0",
     "react": "react@next",
-    "react-dom": "react-dom@next",
     "react-dnd": "^7.0.2",
     "react-dnd-html5-backend": "^7.0.2",
+    "react-dom": "react-dom@next",
     "react-draggable": "^3.0.5",
+    "react-image": "^1.5.1",
     "react-window": "^1.3.1",
     "styled-components": "^4.1.2"
   }

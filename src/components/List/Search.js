@@ -15,21 +15,20 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 27px;
-  color: #333;
-  margin: 0 0 15px;
   width: 100%;
+  font-size: 27px;
+  margin: 0 0 15px;
 `;
 
 const Input = styled.input.attrs(props => {
   type: props.type;
 })`
+  width: 95%;
   font-size: 12px;
   padding: 9px;
   border-radius: 8px;
   box-shadow: none;
   border: 1px solid #eaeaea;
-  width: 95%;
   box-sizing: border-box;
   transition: all 0.1s ease-in;
   &:focus {

@@ -9,11 +9,11 @@ const COLUMN_WIDTH = 97;
 const ROW_HEIGHT = 97;
 
 const Wrapper = styled.div`
+  height: calc(100% - 122px);
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   flex: 0.3;
-  height: calc(100% - 122px);
   background-color: #f2f2f2;
   border-right: 1px solid #eaeaea;
   -webkit-overflow-scrolling: touch;

@@ -4,8 +4,8 @@ import Draggable from 'react-draggable';
 import Resizable from 're-resizable';
 
 const Dimension = styled.div`
-  background-color: transparent;
   font-size: 13px;
+  background-color: transparent;
   text-align: center;
   margin-top: 7px;
   cursor: default;
@@ -15,17 +15,19 @@ const Dimension = styled.div`
 `;
 
 const OptionsView = styled.div`
+  height: calc(100% + 5px);
+  width: 20px;
   position: absolute;
   right: -36px;
   top: -5px;
   bottom: 0;
-  height: calc(100% + 5px);
-  width: 20px;
   padding: 3px 5px;
   cursor: default;
 `;
 
 const OptionButton = styled.div`
+  height: 20px;
+  width: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,8 +35,6 @@ const OptionButton = styled.div`
   background-color: #fff;
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
-  height: 20px;
-  width: 20px;
   margin-bottom: 7px;
   cursor: pointer;
   opacity: 0;
@@ -46,19 +46,19 @@ const OptionButton = styled.div`
 const OptionIcon = styled.div.attrs(props => {
   title: props.title;
 })`
+  height: 14px;
+  width: 14px;
   background-image: url(${({ source }) => source});
   background-size: contain;
   background-repeat: no-repeat;
-  height: 14px;
-  width: 14px;
   pointer-events: none;
   user-select: none;
 `;
 
-const Item = styled.div`
-  position: absolute;
+const Wrapper = styled.div`
   height: ${({ height }) => height}px;
   width: ${({ width }) => width}px;
+  position: absolute;
   cursor: grab;
   &:hover {
     border: 2px dashed #c9c9c9;
@@ -75,11 +75,11 @@ const Item = styled.div`
 `;
 
 const Image = styled.div`
+  height: ${({ height }) => height}px;
+  width: ${({ width }) => width}px;
   background-image: url(${({ source }) => source});
   background-size: contain;
   background-repeat: no-repeat;
-  height: ${({ height }) => height}px;
-  width: ${({ width }) => width}px;
   transform: ${({ transform }) => transform};
 `;
 
@@ -108,7 +108,7 @@ const Sticker = ({
       defaultPosition={{ x: posX, y: posY }}
       onStop={(e, { x, y }) => changePosition(id, x, y)}
     >
-      <Item
+      <Wrapper
         ref={value => setRef(value, 'dimension')}
         height={height}
         width={width}
@@ -116,8 +116,8 @@ const Sticker = ({
         <Resizable
           className="handle"
           defaultSize={{
-            width: 75,
-            height: 75
+            height: 75,
+            width: 75
           }}
           lockAspectRatio
           onResize={(e, direction, ref, d) => {
@@ -142,24 +142,24 @@ const Sticker = ({
         <OptionsView>
           <OptionButton onClick={() => handleRemove(id)}>
             <OptionIcon
-              source="https://icon.now.sh/delete"
+              source="https://icon.now.sh/delete/333"
               title="Remove sticker"
             />
           </OptionButton>
           <OptionButton onClick={() => changeRotate(id, 'right', transform)}>
             <OptionIcon
-              source="https://icon.now.sh/rotate_right"
+              source="https://icon.now.sh/rotate_right/333"
               title="Rotate right sticker"
             />
           </OptionButton>
           <OptionButton onClick={() => changeRotate(id, 'left', transform)}>
             <OptionIcon
-              source="https://icon.now.sh/rotate_left"
+              source="https://icon.now.sh/rotate_left/333"
               title="Rotate left sticker"
             />
           </OptionButton>
         </OptionsView>
-      </Item>
+      </Wrapper>
     </Draggable>
   );
 };

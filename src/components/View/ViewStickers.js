@@ -6,26 +6,24 @@ import Sticker from './Sticker';
 const macImage = require('../../assets/mac.png');
 
 const Wrapper = styled.div`
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  width: 100%;
   position: relative;
 `;
 
 const View = styled.div`
+  width: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 80%;
 `;
 
 const Image = styled.img`
   width: 100%;
-  pointer-events: none;
-  user-select: none;
 `;
 
 const Drag = styled.div`
@@ -84,8 +82,9 @@ const ViewStickers = ({
 
   const changeRefTextDimension = (pos, ref) => {
     let item = refs.textDimension[pos];
-    item.innerHTML = `${parseInt(ref.style.height)}x
-    ${parseInt(ref.style.width)} (px)`;
+    item.innerHTML = `${parseInt(ref.style.height)}x${parseInt(
+      ref.style.width
+    )} (px)`;
   };
 
   return (

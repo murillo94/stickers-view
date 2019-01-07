@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
   html,
   body {
     font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    color: #333;
     height: 100%;
     margin: 0;
   }
@@ -36,6 +37,11 @@ const GlobalStyle = createGlobalStyle`
   ::-webkit-scrollbar-track {
     background-color: #eaeaea !important;
     border-radius: 20px;
+  }
+
+  img {
+    user-select: none;
+    pointer-events: none;
   }
 `;
 
