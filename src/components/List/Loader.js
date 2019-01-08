@@ -6,11 +6,12 @@ const Loading = styled.div`
   width: 80px;
   border-radius: 8px;
   cursor: default;
-  animation: color 1.5s infinite;
+  animation: color 1.5s ease-out infinite;
 
   @keyframes color {
+    100%,
     0% {
-      background: #ff7f7f;
+      background-color: #fff;
     }
     20% {
       background: #ff7f7f;
@@ -23,9 +24,6 @@ const Loading = styled.div`
     }
     80% {
       background: #6fd5ee;
-    }
-    100% {
-      background: #c59be2;
     }
   }
 `;
