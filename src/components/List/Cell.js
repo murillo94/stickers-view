@@ -7,11 +7,11 @@ import Loader from './Loader';
 const Image = styled.div`
   height: 100%;
   width: 100%;
+  font-size: 13px;
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.2s linear;
-  will-change: transform;
 `;
 
 const Wrapper = styled.div`
@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   margin: 20px;
   cursor: pointer;
   &:hover {
-    ${Image} {
+    img {
       transform: translateY(-10px);
     }
   }
@@ -43,7 +43,9 @@ const Cell = ({
         alt={item.title}
         height={52}
         width={52}
+        style={{ transition: 'transform 0.2s linear', willChange: 'transform' }}
         loader={<Loader />}
+        unloader={'Error :('}
         container={img => {
           return <Image>{img}</Image>;
         }}

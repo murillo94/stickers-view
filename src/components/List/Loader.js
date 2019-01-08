@@ -1,15 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
-  height: 100%;
-  width: 100%;
-`;
-
 const Loading = styled.div`
-  height: 100%;
-  width: 100%;
+  height: 80px;
+  width: 80px;
   border-radius: 8px;
+  cursor: default;
   animation: color 1.5s infinite;
 
   @keyframes color {
@@ -34,10 +30,6 @@ const Loading = styled.div`
   }
 `;
 
-const Loader = () => (
-  <Wrapper>
-    <Loading />
-  </Wrapper>
-);
+const Loader = () => <Loading />;
 
 export default Loader;
