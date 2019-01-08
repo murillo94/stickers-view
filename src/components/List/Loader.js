@@ -6,7 +6,7 @@ const Loading = styled.div`
   width: 80px;
   border-radius: 8px;
   cursor: default;
-  animation: color 1.5s ease-out infinite;
+  animation: color 1.5s ease-in infinite;
 
   @keyframes color {
     100%,
