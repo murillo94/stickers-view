@@ -17,9 +17,9 @@
   },
   "dependencies": {
     "components": "^0.1.0",
-    "js-search": "^1.4.2",
     "re-resizable": "^4.10.0",
     "react": "react@next",
+    "react-autosuggest": "^9.4.3",
     "react-dnd": "^7.0.2",
     "react-dnd-html5-backend": "^7.0.2",
     "react-dom": "react-dom@next",

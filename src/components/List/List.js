@@ -93,7 +93,7 @@ class List extends Component {
 
     return (
       <div>
-        <Search data={this.props.data} actionSearch={this.searchData} />
+        <Search actionSearch={this.searchData} />
         <Wrapper id="list">
           {fullWidth > 991 ? (
             <FixedSizeGrid

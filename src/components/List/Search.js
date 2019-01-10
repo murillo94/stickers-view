@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import * as JsSearch from 'js-search';
+import Autosuggest from 'react-autosuggest';
+import Img from 'react-image';
+
+import Loader from './Loader';
+import stickers from '../../data/stickers.json';
+import { source, dimensions } from '../../data/url';
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,41 +25,102 @@ const Title = styled.h1`
   margin: 0 0 15px;
 `;
 
-const Input = styled.input.attrs(props => {
-  type: props.type;
-})`
-  width: 95%;
-  font-size: 12px;
-  padding: 9px;
-  border-radius: 8px;
-  box-shadow: none;
-  border: 1px solid #eaeaea;
-  box-sizing: border-box;
-  transition: all 0.1s ease-in;
-  &:focus {
-    outline: none;
-    border-color: #c1c1c1;
-    box-shadow: 0px 2px 5px rgba(180,180,180,0.1);
+const Suggestion = styled.div`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center';
 `;
 
-const Search = ({ data = [], actionSearch }) => {
+const BoxImage = styled.div`
+  margin-right: 10px;
+`;
+
+const Image = styled.div`
+  height: 100%;
+  width: 100%;
+  font-size: 13px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const escapeRegexCharacters = str => {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+};
+
+const getSuggestions = value => {
+  const escapedValue = escapeRegexCharacters(value.trim());
+  const regex = new RegExp('^' + escapedValue, 'i');
+
+  return stickers.filter(item => regex.test(item.title));
+};
+
+const getSuggestionValue = ({ title }) => title;
+
+const renderSuggestion = ({ title, id }) => (
+  <Suggestion>
+    <BoxImage>
+      <Img
+        src={source + id + dimensions}
+        alt={title}
+        height={18}
+        width={18}
+        loader={<Loader height={18} width={18} />}
+        unloader={'Error :('}
+        container={img => {
+          return <Image>{img}</Image>;
+        }}
+      />
+    </BoxImage>
+    {title}
+  </Suggestion>
+);
+
+const shouldRenderSuggestions = () => true;
+
+const Search = ({ actionSearch }) => {
   const [value, setValue] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
 
-  let searchData = new JsSearch.Search('id');
-  searchData.addIndex('title');
-  searchData.addIndex('tags');
-  searchData.addDocuments(data);
+  const onChange = (event, { newValue }) => {
+    setValue(newValue);
+    if (newValue.length === 0) {
+      actionSearch(stickers);
+    }
+  };
 
-  const handleChange = e => {
-    const res = e.target.value;
-    setValue(res);
-    actionSearch(res ? searchData.search(res) : data);
+  const onSuggestionsFetchRequested = ({ value }) => {
+    setSuggestions(getSuggestions(value));
+  };
+
+  const onSuggestionsClearRequested = () => {
+    setSuggestions([]);
+  };
+
+  const onSuggestionSelected = (event, { suggestion }) => {
+    actionSearch([suggestion]);
   };
 
   return (
     <Wrapper>
       <Title>Choose your stickers</Title>
-      <Input type="search" onChange={handleChange} />
+      <Autosuggest
+        suggestions={suggestions}
+        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+        onSuggestionsClearRequested={onSuggestionsClearRequested}
+        onSuggestionSelected={onSuggestionSelected}
+        getSuggestionValue={getSuggestionValue}
+        shouldRenderSuggestions={shouldRenderSuggestions}
+        highlightFirstSuggestion={true}
+        renderSuggestion={renderSuggestion}
+        inputProps={{
+          type: 'search',
+          placeholder: 'Ex: JavaScript',
+          value,
+          onChange
+        }}
+      />
     </Wrapper>
   );
 };

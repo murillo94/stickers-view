@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Loading = styled.div`
-  height: 80px;
-  width: 80px;
+  height: ${({ height }) => height}px;
+  width: ${({ width }) => width}px;
   border-radius: 8px;
   cursor: default;
   animation: color 1.5s ease-in infinite;
@@ -28,6 +28,6 @@ const Loading = styled.div`
   }
 `;
 
-const Loader = () => <Loading />;
+const Loader = ({ height, width }) => <Loading height={height} width={width} />;
 
 export default Loader;
