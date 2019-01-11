@@ -88,18 +88,9 @@ const GlobalStyle = createGlobalStyle`
     border-bottom-right-radius: 8px;
   }
 
-  .react-autosuggest__section-container {
-    border-top: 1px dashed #ccc;
-  }
-
-  .react-autosuggest__section-container--first {
-    border-top: 0;
-  }
-
-  .react-autosuggest__section-title {
-    padding: 10px 0 0 10px;
-    font-size: 12px;
-    color: #777;
+  img {
+    user-select: none;
+    pointer-events: none;
   }
 
   ::-webkit-scrollbar {
@@ -122,9 +113,8 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 20px;
   }
 
-  img {
-    user-select: none;
-    pointer-events: none;
+  ::placeholder {
+    color: #8e8e8e;
   }
 `;
 
