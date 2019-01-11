@@ -11,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
     color: #333;
+    letter-spacing: 0.5px;
     height: 100%;
     margin: 0;
   }
@@ -37,7 +38,7 @@ const GlobalStyle = createGlobalStyle`
 
   .react-autosuggest__input--focused {
     outline: none;
-    border-color: #c1c1c1;
+    border-color: #d9d9d9;
   }
 
   .react-autosuggest__input--open {
@@ -55,9 +56,9 @@ const GlobalStyle = createGlobalStyle`
     display: block;
     position: absolute;
     top: 35px;
-    border: 1px solid #c1c1c1;
+    border: 1px solid #d9d9d9;
     background-color: #fff;
-    box-shadow: 0px 2px 5px rgba(180,180,180,0.1);
+    box-shadow: 0 8px 16px -8px rgba(0,0,0,.4);
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     border-top: none;
@@ -88,7 +89,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .react-autosuggest__section-container {
-    border-top: 1px dashed #ccc;s
+    border-top: 1px dashed #ccc;
   }
 
   .react-autosuggest__section-container--first {

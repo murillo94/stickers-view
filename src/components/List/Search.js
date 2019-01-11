@@ -45,15 +45,26 @@ const Image = styled.div`
   align-items: center;
 `;
 
-const escapeRegexCharacters = str => {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-};
+const Footer = styled.div`
+  color: #ff596f;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  &:hover {
+    background-color: #f6f6f6;
+  }
+`;
 
 const getSuggestions = value => {
-  const escapedValue = escapeRegexCharacters(value.trim());
-  const regex = new RegExp('^' + escapedValue, 'i');
+  const inputValue = value.trim().toLowerCase();
+  const inputLength = inputValue.length;
 
-  return stickers.filter(item => regex.test(item.title));
+  return inputLength === 0
+    ? []
+    : stickers.filter(
+        item => item.title.toLowerCase().slice(0, inputLength) === inputValue
+      );
 };
 
 const getSuggestionValue = ({ title }) => title;
@@ -75,6 +86,22 @@ const renderSuggestion = ({ title, id }) => (
     </BoxImage>
     {title}
   </Suggestion>
+);
+
+const renderSuggestionsContainer = ({
+  containerProps,
+  children,
+  query,
+  onSuggestionSelectedAll
+}) => (
+  <div {...containerProps}>
+    {children}
+    {query.length > 0 ? (
+      <Footer onClick={onSuggestionSelectedAll}>
+        See results for <strong>{query}</strong>
+      </Footer>
+    ) : null}
+  </div>
 );
 
 const shouldRenderSuggestions = () => true;
@@ -102,6 +129,11 @@ const Search = ({ actionSearch }) => {
     actionSearch([suggestion]);
   };
 
+  const onSuggestionSelectedAll = () => {
+    actionSearch(suggestions);
+    setSuggestions([]);
+  };
+
   return (
     <Wrapper>
       <Title>Choose your stickers</Title>
@@ -114,6 +146,14 @@ const Search = ({ actionSearch }) => {
         shouldRenderSuggestions={shouldRenderSuggestions}
         highlightFirstSuggestion={true}
         renderSuggestion={renderSuggestion}
+        renderSuggestionsContainer={({ containerProps, children, query }) =>
+          renderSuggestionsContainer({
+            containerProps,
+            children,
+            query,
+            onSuggestionSelectedAll
+          })
+        }
         inputProps={{
           type: 'search',
           placeholder: 'Ex: JavaScript',
