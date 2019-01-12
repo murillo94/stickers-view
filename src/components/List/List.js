@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FixedSizeGrid, FixedSizeList } from 'react-window';
 
@@ -24,41 +24,44 @@ const Wrapper = styled.div`
   }
 `;
 
-class List extends Component {
-  state = {
-    height: 0,
-    width: 0,
-    fullWidth: 0,
-    columns: 0,
-    data: this.props.data,
-    count: this.props.data.length
-  };
+const List = ({ data, source, dimensions, handleSelect }) => {
+  const [list, setList] = useState(data);
+  const [count, setCount] = useState(data.length);
+  const [height, setHeight] = useState(0);
+  const [width, setWidth] = useState(0);
+  const [fullWidth, setFullWidth] = useState(0);
+  const [columns, setColumns] = useState(0);
 
-  searchData = data => {
-    while (data.length % this.state.columns) {
+  useEffect(() => {
+    recalcSize();
+    window.addEventListener('resize', recalcSize);
+    return () => {
+      window.removeEventListener('resize', recalcSize);
+    };
+  }, []);
+
+  const searchData = data => {
+    while (data.length % columns) {
       data.push({ blank: true });
     }
-    this.setState({ data, count: data.length });
+    setList(data);
+    setCount(data.length);
   };
 
-  renderCellGrid = ({ rowIndex, columnIndex, style }) => {
-    const { source, dimensions, handleSelect } = this.props;
-    const { data, columns } = this.state;
-    const item = data[rowIndex * columns + columnIndex];
+  const renderCellGrid = ({ rowIndex, columnIndex, style }) => {
+    const item = list[rowIndex * columns + columnIndex];
     if (!item.blank) {
       return <Cell {...{ item, style, source, dimensions, handleSelect }} />;
     }
     return null;
   };
 
-  renderCellList = ({ index, style }) => {
-    const { source, dimensions, handleSelect } = this.props;
-    const { data } = this.state;
-    const item = data[index];
+  const renderCellList = ({ index, style }) => {
+    const item = list[index];
     return <Cell {...{ item, style, source, dimensions, handleSelect }} />;
   };
 
-  recalcSize = () => {
+  const recalcSize = () => {
     const fullWidth =
       window.innerWidth ||
       document.documentElement.clientWidth ||
@@ -71,57 +74,42 @@ class List extends Component {
     const height = document.getElementById('list').offsetHeight;
     const columns = Math.floor(width / COLUMN_WIDTH);
 
-    this.setState({
-      height,
-      width,
-      fullWidth,
-      columns
-    });
+    setHeight(height);
+    setWidth(width);
+    setFullWidth(fullWidth);
+    setColumns(columns);
   };
 
-  componentDidMount() {
-    this.recalcSize();
-    window.addEventListener('resize', this.recalcSize);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.recalcSize);
-  }
-
-  render() {
-    const { fullWidth, columns, count, height, width, data } = this.state;
-
-    return (
-      <div>
-        <Search actionSearch={this.searchData} />
-        <Wrapper id="list">
-          {fullWidth > 991 ? (
-            <FixedSizeGrid
-              columnCount={columns}
-              columnWidth={COLUMN_WIDTH}
-              rowCount={Math.floor(count / columns)}
-              rowHeight={ROW_HEIGHT}
-              height={height}
-              width={width}
-            >
-              {this.renderCellGrid}
-            </FixedSizeGrid>
-          ) : (
-            <FixedSizeList
-              direction="horizontal"
-              height={130}
-              itemCount={data.length}
-              itemSize={97}
-              width={width}
-              style={{ padding: '0 20px' }}
-            >
-              {this.renderCellList}
-            </FixedSizeList>
-          )}
-        </Wrapper>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Search actionSearch={searchData} />
+      <Wrapper id="list">
+        {fullWidth > 991 ? (
+          <FixedSizeGrid
+            columnCount={columns}
+            columnWidth={COLUMN_WIDTH}
+            rowCount={Math.floor(count / columns)}
+            rowHeight={ROW_HEIGHT}
+            height={height}
+            width={width}
+          >
+            {renderCellGrid}
+          </FixedSizeGrid>
+        ) : (
+          <FixedSizeList
+            direction="horizontal"
+            height={130}
+            itemCount={list.length}
+            itemSize={97}
+            width={width}
+            style={{ padding: '0 20px' }}
+          >
+            {renderCellList}
+          </FixedSizeList>
+        )}
+      </Wrapper>
+    </div>
+  );
+};
 
 export default List;

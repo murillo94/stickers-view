@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useReducer } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
 import stickers from './data/stickers.json';
@@ -126,75 +126,85 @@ const Wrapper = styled.div`
   }
 `;
 
-class App extends Component {
-  state = {
-    stickers: stickers,
-    selected: []
-  };
-
-  handleSelect = (id, ...args) => {
-    this.setState(prevState => {
-      const list = { ...prevState.selected };
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'add': {
+      let { id } = action;
+      const list = { ...state };
       const key = list[id] ? id : id + Object.keys(list).length;
 
-      if (args.length > 0) {
-        Object.keys(args[0]).map(value => {
-          list[key][value] = args[0][value];
-        });
-      } else {
-        list[key] = {
-          id,
-          posX: 25,
-          posY: 25,
-          height: 75,
-          width: 75,
-          transform: 'rotate(0deg)'
-        };
-      }
-
-      return {
-        selected: list
+      list[key] = {
+        id,
+        posX: 25,
+        posY: 25,
+        height: 75,
+        width: 75,
+        transform: 'rotate(0deg)'
       };
-    });
-  };
 
-  handleRemove = index => {
-    this.setState(prevState => {
-      const list = { ...prevState.selected };
+      return list;
+    }
+    case 'move': {
+      let { id, args } = action;
+      const list = { ...state };
+      const key = list[id] ? id : id + Object.keys(list).length;
+
+      Object.keys(args[0]).map(value => {
+        list[key][value] = args[0][value];
+      });
+
+      return list;
+    }
+    case 'remove': {
+      let { index } = action;
+      const list = { ...state };
       const listFiltered = Object.keys(list)
         .filter(key => key !== index)
         .reduce((obj, key) => {
           obj[key] = list[key];
           return obj;
         }, {});
-      return {
-        selected: listFiltered
-      };
-    });
+      return listFiltered;
+    }
+    default: {
+      return state;
+    }
+  }
+};
+
+const App = () => {
+  const [selected, dispatch] = useReducer(reducer, []);
+
+  const handleSelect = (id, ...args) => {
+    if (args.length > 0) {
+      dispatch({ type: 'move', id, args });
+    } else {
+      dispatch({ type: 'add', id });
+    }
   };
 
-  render() {
-    const { stickers, selected } = this.state;
+  const handleRemove = index => {
+    dispatch({ type: 'remove', index });
+  };
 
-    return (
-      <Wrapper>
-        <GlobalStyle />
-        <List
-          data={stickers}
-          source={source}
-          dimensions={dimensions}
-          handleSelect={this.handleSelect}
-        />
-        <ViewStickers
-          data={selected}
-          source={source}
-          dimensions={dimensions}
-          handleSelect={this.handleSelect}
-          handleRemove={this.handleRemove}
-        />
-      </Wrapper>
-    );
-  }
-}
+  return (
+    <Wrapper>
+      <GlobalStyle />
+      <List
+        data={stickers}
+        source={source}
+        dimensions={dimensions}
+        handleSelect={handleSelect}
+      />
+      <ViewStickers
+        data={selected}
+        source={source}
+        dimensions={dimensions}
+        handleSelect={handleSelect}
+        handleRemove={handleRemove}
+      />
+    </Wrapper>
+  );
+};
 
 export default App;
