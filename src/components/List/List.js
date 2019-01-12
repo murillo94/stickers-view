@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import styled from 'styled-components';
 import { FixedSizeGrid, FixedSizeList } from 'react-window';
 
@@ -32,7 +32,7 @@ const List = ({ data, source, dimensions, handleSelect }) => {
   const [fullWidth, setFullWidth] = useState(0);
   const [columns, setColumns] = useState(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     recalcSize();
     window.addEventListener('resize', recalcSize);
     return () => {
