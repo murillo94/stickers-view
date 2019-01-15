@@ -2,6 +2,7 @@ import React, { useState, useLayoutEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import stickers from '../../data/stickers.json';
+import { type } from 'os';
 
 const FadeIn = keyframes`
   from {
@@ -62,14 +63,29 @@ const Title = styled.h1`
   margin: 30px 10px 20px;
 `;
 
-const Item = styled.div`
+const Label = styled.label`
   font-size: 14px;
   border: 1px solid #333;
   border-radius: 8px;
-  padding: 8px 15px;
+  padding: 8px 0;
   margin: 10px;
+  position: relative;
   display: inline-block;
   cursor: pointer;
+`;
+
+const Checkbox = styled.input.attrs(({ type }) => {
+  type: type;
+})`
+  display: none;
+  & + span {
+    padding: 8px 15px;
+    border-radius: 7px;
+  }
+  &:checked + span {
+    background: #333;
+    color: #fff;
+  }
 `;
 
 const ContainerSave = styled.div`
@@ -147,7 +163,10 @@ const Filter = () => {
       />
       <Title>Filter by Categories</Title>
       {getTags().map((item, index) => (
-        <Item key={index}>{item}</Item>
+        <Label key={index}>
+          <Checkbox type="checkbox" name="categories" value={item} />
+          <span>{item}</span>
+        </Label>
       ))}
       <ContainerSave>
         <Save>Filter</Save>
