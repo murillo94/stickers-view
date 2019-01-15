@@ -14,14 +14,13 @@ const Wrapper = styled.div`
   align-items: flex-start;
   flex-direction: column;
   padding: 20px;
-  background-color: #eaeaea;
+  background-color: #f6f6f6;
   @media (max-width: 991px) {
     display: none;
   }
 `;
 
 const Title = styled.h1`
-  width: 100%;
   font-size: 27px;
   margin: 0 0 15px;
 `;
@@ -34,7 +33,7 @@ const Inline = styled.div`
 const Suggestion = styled.div`
   display: flex;
   justify-content: flex-start;
-  align-items: center';
+  align-items: center;
 `;
 
 const BoxImage = styled.div`
@@ -166,7 +165,7 @@ const Search = ({ actionSearch }) => {
           }
           inputProps={{
             type: 'search',
-            placeholder: 'Ex: JavaScript',
+            placeholder: 'Try "JavaScript"',
             value,
             onChange
           }}

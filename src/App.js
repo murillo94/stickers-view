@@ -27,6 +27,8 @@ const GlobalStyle = createGlobalStyle`
 
   .react-autosuggest__input {
     font-size: 12px;
+    font-weight: 500;
+    background-color: #eaeaea;
     padding: 9px;
     border-radius: 8px;
     box-shadow: none;
@@ -47,7 +49,6 @@ const GlobalStyle = createGlobalStyle`
 
   .react-autosuggest__suggestions-container--open {
     font-size: 14px;
-    font-weight: 300;
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 8px 0px, rgba(0, 0, 0, 0.19) 0px 7px 20px 0px;
     border-radius: 8px;
@@ -83,6 +84,14 @@ const GlobalStyle = createGlobalStyle`
   img {
     user-select: none;
     pointer-events: none;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  button:focus {
+    outline: none;
   }
 
   ::-webkit-scrollbar {

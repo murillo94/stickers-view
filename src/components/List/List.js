@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   flex: 0.3;
-  background-color: #f2f2f2;
+  background-color: #f6f6f6;
   border-right: 1px solid #eaeaea;
   -webkit-overflow-scrolling: touch;
   @media (max-width: 991px) {
