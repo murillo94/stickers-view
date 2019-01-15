@@ -43,8 +43,8 @@ const OptionButton = styled.div`
   }
 `;
 
-const OptionIcon = styled.div.attrs(props => {
-  title: props.title;
+const OptionIcon = styled.div.attrs(({ title }) => {
+  title: title;
 })`
   height: 14px;
   width: 14px;

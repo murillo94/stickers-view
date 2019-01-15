@@ -8,6 +8,10 @@ import Cell from './Cell';
 const COLUMN_WIDTH = 97;
 const ROW_HEIGHT = 97;
 
+const Container = styled.div`
+  position: relative;
+`;
+
 const Wrapper = styled.div`
   height: calc(100% - 122px);
   display: flex;
@@ -81,7 +85,7 @@ const List = ({ data, source, dimensions, handleSelect }) => {
   };
 
   return (
-    <div>
+    <Container>
       <Search actionSearch={searchData} />
       <Wrapper id="list">
         {fullWidth > 991 ? (
@@ -108,7 +112,7 @@ const List = ({ data, source, dimensions, handleSelect }) => {
           </FixedSizeList>
         )}
       </Wrapper>
-    </div>
+    </Container>
   );
 };
 

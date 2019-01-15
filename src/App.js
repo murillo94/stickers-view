@@ -41,11 +41,6 @@ const GlobalStyle = createGlobalStyle`
     border-color: #d9d9d9;
   }
 
-  .react-autosuggest__input--open {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
   .react-autosuggest__suggestions-container {
     display: none;
   }
@@ -53,19 +48,16 @@ const GlobalStyle = createGlobalStyle`
   .react-autosuggest__suggestions-container--open {
     font-size: 14px;
     font-weight: 300;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 8px 0px, rgba(0, 0, 0, 0.19) 0px 7px 20px 0px;
+    border-radius: 8px;
     display: block;
     position: absolute;
-    top: 35px;
-    border: 1px solid #d9d9d9;
-    background-color: #fff;
-    box-shadow: 0 8px 16px -8px rgba(0,0,0,.4);
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    border-top: none;
-    z-index: 2;
-    max-height: 260px;
+    top: 45px;
+    max-height: 280px;
     overflow-y: auto;
     width: 99.5%;
+    z-index: 1;
   }
 
   .react-autosuggest__suggestions-list {

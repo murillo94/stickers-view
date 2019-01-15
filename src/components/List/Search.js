@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Autosuggest from 'react-autosuggest';
 import Img from 'react-image';
 
+import Filter from './Filter';
 import Loader from './Loader';
 import stickers from '../../data/stickers.json';
 import { source, dimensions } from '../../data/url';
@@ -25,9 +26,14 @@ const Title = styled.h1`
   margin: 0 0 15px;
 `;
 
+const Inline = styled.div`
+  width: 100%;
+  display: flex;
+`;
+
 const Suggestion = styled.div`
-  display: inline-flex;
-  justify-content: center;
+  display: flex;
+  justify-content: flex-start;
   align-items: center';
 `;
 
@@ -43,6 +49,9 @@ const Image = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px,
+    rgba(0, 0, 0, 0.1) 0px 1px 3px -2px, rgba(0, 0, 0, 0.15) 0px 5px 15px -5px;
 `;
 
 const Footer = styled.div`
@@ -75,9 +84,9 @@ const renderSuggestion = ({ title, id }) => (
       <Img
         src={source + id + dimensions}
         alt={title}
-        height={18}
-        width={18}
-        loader={<Loader height={18} width={18} />}
+        height={22}
+        width={22}
+        loader={<Loader height={22} width={22} />}
         unloader={'Error :('}
         container={img => {
           return <Image>{img}</Image>;
@@ -137,30 +146,33 @@ const Search = ({ actionSearch }) => {
   return (
     <Wrapper>
       <Title>Choose your stickers</Title>
-      <Autosuggest
-        suggestions={suggestions}
-        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-        onSuggestionsClearRequested={onSuggestionsClearRequested}
-        onSuggestionSelected={onSuggestionSelected}
-        getSuggestionValue={getSuggestionValue}
-        shouldRenderSuggestions={shouldRenderSuggestions}
-        highlightFirstSuggestion={true}
-        renderSuggestion={renderSuggestion}
-        renderSuggestionsContainer={({ containerProps, children, query }) =>
-          renderSuggestionsContainer({
-            containerProps,
-            children,
-            query,
-            onSuggestionSelectedAll
-          })
-        }
-        inputProps={{
-          type: 'search',
-          placeholder: 'Ex: JavaScript',
-          value,
-          onChange
-        }}
-      />
+      <Inline>
+        <Autosuggest
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={onSuggestionsClearRequested}
+          onSuggestionSelected={onSuggestionSelected}
+          getSuggestionValue={getSuggestionValue}
+          shouldRenderSuggestions={shouldRenderSuggestions}
+          highlightFirstSuggestion={true}
+          renderSuggestion={renderSuggestion}
+          renderSuggestionsContainer={({ containerProps, children, query }) =>
+            renderSuggestionsContainer({
+              containerProps,
+              children,
+              query,
+              onSuggestionSelectedAll
+            })
+          }
+          inputProps={{
+            type: 'search',
+            placeholder: 'Ex: JavaScript',
+            value,
+            onChange
+          }}
+        />
+        <Filter />
+      </Inline>
     </Wrapper>
   );
 };
