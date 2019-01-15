@@ -66,7 +66,7 @@ const Filter = ({ actionShow }) => {
       <Open
         onClick={openModal}
         source="https://icon.now.sh/filter_list/333"
-        title="Open tags"
+        title="Open categories"
       />
     );
   }
@@ -76,7 +76,7 @@ const Filter = ({ actionShow }) => {
       <Close
         onClick={openModal}
         source="https://icon.now.sh/close/333"
-        title="Close tags"
+        title="Close categories"
       />
     </Wrapper>
   );
