@@ -64,14 +64,16 @@ const Footer = styled.div`
   }
 `;
 
-const getSuggestions = value => {
+const getSuggestions = (value, list) => {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
 
   return inputLength === 0
     ? []
-    : stickers.filter(
-        item => item.title.toLowerCase().slice(0, inputLength) === inputValue
+    : list.filter(
+        item =>
+          item.title &&
+          item.title.toLowerCase().slice(0, inputLength) === inputValue
       );
 };
 
@@ -117,16 +119,19 @@ const shouldRenderSuggestions = () => true;
 const Search = ({ actionSearch }) => {
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const [filter, setFilter] = useState([]);
 
   const onChange = (event, { newValue }) => {
     setValue(newValue);
     if (newValue.length === 0) {
-      actionSearch(stickers);
+      const list = filter.length ? filter : stickers;
+      actionSearch(list);
     }
   };
 
   const onSuggestionsFetchRequested = ({ value }) => {
-    setSuggestions(getSuggestions(value));
+    const list = filter.length ? filter : stickers;
+    setSuggestions(getSuggestions(value, list));
   };
 
   const onSuggestionsClearRequested = () => {
@@ -140,6 +145,16 @@ const Search = ({ actionSearch }) => {
   const onSuggestionSelectedAll = () => {
     actionSearch(suggestions);
     setSuggestions([]);
+  };
+
+  const onFilter = categories => {
+    const list = categories.length
+      ? stickers.filter(({ tags }) =>
+          tags.some(name => categories.includes(name))
+        )
+      : stickers;
+    setFilter(list);
+    actionSearch(list);
   };
 
   return (
@@ -170,7 +185,7 @@ const Search = ({ actionSearch }) => {
             onChange
           }}
         />
-        <Filter />
+        <Filter onFilter={onFilter} />
       </Inline>
     </Wrapper>
   );

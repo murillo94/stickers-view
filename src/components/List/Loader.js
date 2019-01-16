@@ -7,16 +7,16 @@ const Color = keyframes`
     background-color: #fff;
   }
   20% {
-    background: #ff7f7f;
+    background-color: #ff7f7f;
   }
   40% {
-    background: #fcff8c;
+    background-color: #fcff8c;
   }
   60% {
-    background: #76f6bf;
+    background-color: #76f6bf;
   }
   80% {
-    background: #6fd5ee;
+    background-color: #6fd5ee;
   }
 `;
 

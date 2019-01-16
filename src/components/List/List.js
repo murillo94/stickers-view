@@ -54,10 +54,10 @@ const List = ({ data, source, dimensions, handleSelect }) => {
 
   const renderCellGrid = ({ rowIndex, columnIndex, style }) => {
     const item = list[rowIndex * columns + columnIndex];
-    if (!item.blank) {
-      return <Cell {...{ item, style, source, dimensions, handleSelect }} />;
-    }
-    return null;
+
+    return !item.blank ? (
+      <Cell {...{ item, style, source, dimensions, handleSelect }} />
+    ) : null;
   };
 
   const renderCellList = ({ index, style }) => {

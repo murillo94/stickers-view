@@ -48,10 +48,7 @@ const ViewStickers = ({
   };
 
   const setRef = (ref, type) => {
-    if (ref) {
-      const item = ref;
-      refs[type].push(item);
-    }
+    if (ref) refs[type].push(ref);
   };
 
   const changePosition = (id, posX, posY) => {

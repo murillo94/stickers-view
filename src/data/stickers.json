@@ -92,7 +92,7 @@
   {
     "title": "Android Sticker",
     "id": "254368993.5401",
-    "tags": ["operating system", "SO"]
+    "tags": ["SO"]
   },
   {
     "title": "Firebase Sticker",
@@ -248,13 +248,13 @@
   {
     "title": "TravisCI Sticker",
     "id": "360420100.5941",
-    "tags": ["CI", "test"]
+    "tags": ["CI"]
   },
   { "title": "Git Sticker", "id": "396174375.0711", "tags": ["git"] },
   {
     "title": "Linux Sticker",
     "id": "275544086.5183",
-    "tags": ["operating system", "SO"]
+    "tags": ["SO"]
   },
   {
     "title": "NodeJS Sticker",
@@ -281,32 +281,32 @@
   {
     "title": "Arduino Sticker",
     "id": "332272033.2749",
-    "tags": ["CI", "test"]
+    "tags": ["CI"]
   },
   {
     "title": "Jenkins Sticker",
     "id": "242840987.7392",
-    "tags": ["CI", "test"]
+    "tags": ["CI"]
   },
   {
     "title": "Jenkins Sticker",
     "id": "540638431.2423",
-    "tags": ["CI", "test"]
+    "tags": ["CI"]
   },
   {
     "title": "Jenkins Sticker",
     "id": "540638530.2426",
-    "tags": ["CI", "test"]
+    "tags": ["CI"]
   },
   {
     "title": "Jenkins Sticker",
     "id": "313448974.0022",
-    "tags": ["CI", "test"]
+    "tags": ["CI"]
   },
   {
     "title": "Angry Jenkins Sticker",
     "id": "313373811.7880",
-    "tags": ["CI", "test"]
+    "tags": ["CI"]
   },
   { "title": "Code Sticker", "id": "243564853.1087", "tags": ["code"] },
   { "title": "Tor Sticker", "id": "503953440.7366", "tags": ["browser"] },
