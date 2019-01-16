@@ -12,7 +12,9 @@
 
 Before you buy anything on the internet it would be so cool if you could test it before. In "Stickers View" you can simulate and add stickers, scale and delete it.
 
-![Stickers View](./resources/demo.gif)
+<p align="center">
+  <img alt="Stickers View Demo" width="70%" src="./resources/demo.gif">
+</p>
 
 ## url
 
