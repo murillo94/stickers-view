@@ -18,6 +18,8 @@ Before you buy anything on the internet it would be so cool if you could test it
   <img alt="Stickers View Demo" width="70%" src="./resources/demo.gif">
 </p>
 
+&nbsp;&nbsp;
+
 ## url
 
 https://murillo94.github.io/stickers-view/
