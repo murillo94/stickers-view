@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "parcel src/index.html -d dev -p 8080",
-    "prod": "parcel build src/index.html -d docs"
+    "prod": "parcel build src/index.html -d docs --public-url ./"
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",
