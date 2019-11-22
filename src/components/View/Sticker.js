@@ -79,7 +79,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Sticker = ({ id, transform, urlId, handleRemove, changeRotate }) => {
+const Sticker = ({ id, urlId, handleRemove }) => {
   const wrapperRef = useRef({
     style: {
       height: '75px',
@@ -91,8 +91,8 @@ const Sticker = ({ id, transform, urlId, handleRemove, changeRotate }) => {
   });
   const imageRef = useRef(null);
 
-  const { height, width, posX, posY } = wrapperRef.current.style;
-  console.log('1', height, width, posX, posY);
+  const { height, width, posX, posY, transform } = wrapperRef.current.style;
+  console.log('1', height, width, posX, posY, transform);
 
   const changePosition = (posX, posY) => {
     console.log('changePosition', posX, posY);
@@ -107,6 +107,13 @@ const Sticker = ({ id, transform, urlId, handleRemove, changeRotate }) => {
     wrapperRef.current.style.width = width;
     imageRef.current.style.height = height;
     imageRef.current.style.width = width;
+  };
+
+  const changeRotate = (position, transform) => {
+    const rotate = Number(transform.replace(/[^0-9\.?-]+/g, '')) || 0;
+    const res = position === 'right' ? rotate + 15 : rotate + -15;
+    console.log('changeRotate', res);
+    wrapperRef.current.style.transform = `rotate(${res}deg)`;
   };
 
   return (
@@ -147,13 +154,13 @@ const Sticker = ({ id, transform, urlId, handleRemove, changeRotate }) => {
               title="Remove sticker"
             />
           </OptionButton>
-          <OptionButton onClick={() => changeRotate(id, 'right', transform)}>
+          <OptionButton onClick={() => changeRotate('right', transform)}>
             <OptionIcon
               source="https://icon.now.sh/rotate_right/333"
               title="Rotate right sticker"
             />
           </OptionButton>
-          <OptionButton onClick={() => changeRotate(id, 'left', transform)}>
+          <OptionButton onClick={() => changeRotate('left', transform)}>
             <OptionIcon
               source="https://icon.now.sh/rotate_left/333"
               title="Rotate left sticker"

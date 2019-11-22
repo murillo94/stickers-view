@@ -34,37 +34,23 @@ const Drag = styled.div`
   left: 0;
 `;
 
-const ViewStickers = ({
-  data = [],
-  handleSelect = null,
-  handleRemove = null
-}) => {
-  const changeRotate = (id, position, transform) => {
-    const rotate = Number(transform.replace(/[^0-9\.?-]+/g, '')) || 0;
-    const res = position === 'right' ? rotate + 15 : rotate + -15;
-
-    handleSelect(id, { transform: `rotate(${res}deg)` });
-  };
-
-  return (
-    <Wrapper>
-      <View>
-        <Image src={macImage} />
-        <Drag>
-          {Object.keys(data).map((id, key) => (
-            <Sticker
-              key={key}
-              id={id}
-              transform={data[id].transform}
-              urlId={data[id].id}
-              handleRemove={handleRemove}
-              changeRotate={changeRotate}
-            />
-          ))}
-        </Drag>
-      </View>
-    </Wrapper>
-  );
-};
+const ViewStickers = ({ data = [], handleRemove = null }) => (
+  <Wrapper>
+    <View>
+      <Image src={macImage} />
+      <Drag>
+        {Object.keys(data).map((id, key) => (
+          <Sticker
+            key={key}
+            id={id}
+            transform={data[id].transform}
+            urlId={data[id].id}
+            handleRemove={handleRemove}
+          />
+        ))}
+      </Drag>
+    </View>
+  </Wrapper>
+);
 
 export default ViewStickers;
