@@ -5,6 +5,7 @@ import Img from 'react-image';
 
 import Filter from './Filter';
 import Loader from './Loader';
+
 import stickers from '../../data/stickers.json';
 import { source, dimensions } from '../../data/url';
 
@@ -123,6 +124,7 @@ const Search = ({ actionSearch }) => {
 
   const onChange = (event, { newValue }) => {
     setValue(newValue);
+
     if (newValue.length === 0) {
       const list = filter.length ? filter : stickers;
       actionSearch(list);
@@ -131,6 +133,7 @@ const Search = ({ actionSearch }) => {
 
   const onSuggestionsFetchRequested = ({ value }) => {
     const list = filter.length ? filter : stickers;
+
     setSuggestions(getSuggestions(value, list));
   };
 
@@ -153,6 +156,7 @@ const Search = ({ actionSearch }) => {
           tags.some(name => categories.includes(name))
         )
       : stickers;
+
     setFilter(list);
     actionSearch(list);
   };
@@ -168,7 +172,7 @@ const Search = ({ actionSearch }) => {
           onSuggestionSelected={onSuggestionSelected}
           getSuggestionValue={getSuggestionValue}
           shouldRenderSuggestions={shouldRenderSuggestions}
-          highlightFirstSuggestion={true}
+          highlightFirstSuggestion
           renderSuggestion={renderSuggestion}
           renderSuggestionsContainer={({ containerProps, children, query }) =>
             renderSuggestionsContainer({

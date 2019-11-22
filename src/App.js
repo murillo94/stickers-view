@@ -1,10 +1,11 @@
 import React, { useReducer } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import stickers from './data/stickers.json';
-import { source, dimensions } from './data/url';
 import List from './components/List/List';
 import ViewStickers from './components/View/ViewStickers';
+
+import stickers from './data/stickers.json';
+import { source, dimensions } from './data/url';
 
 const GlobalStyle = createGlobalStyle`
   html,

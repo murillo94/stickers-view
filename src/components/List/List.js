@@ -38,7 +38,9 @@ const List = ({ data, source, dimensions, handleSelect }) => {
 
   useLayoutEffect(() => {
     recalcSize();
+
     window.addEventListener('resize', recalcSize);
+
     return () => {
       window.removeEventListener('resize', recalcSize);
     };
@@ -48,6 +50,7 @@ const List = ({ data, source, dimensions, handleSelect }) => {
     while (data.length % columns) {
       data.push({ blank: true });
     }
+
     setList(data);
     setCount(data.length);
   };
@@ -62,6 +65,7 @@ const List = ({ data, source, dimensions, handleSelect }) => {
 
   const renderCellList = ({ index, style }) => {
     const item = list[index];
+
     return <Cell {...{ item, style, source, dimensions, handleSelect }} />;
   };
 

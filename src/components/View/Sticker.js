@@ -99,69 +99,67 @@ const Sticker = ({
   changeRotate,
   changeRefSize,
   changeRefTextDimension
-}) => {
-  return (
-    <Draggable
-      key={id}
-      bounds="parent"
-      handle=".handle"
-      defaultPosition={{ x: posX, y: posY }}
-      onStop={(e, { x, y }) => changePosition(id, x, y)}
+}) => (
+  <Draggable
+    key={id}
+    bounds="parent"
+    handle=".handle"
+    defaultPosition={{ x: posX, y: posY }}
+    onStop={(e, { x, y }) => changePosition(id, x, y)}
+  >
+    <Wrapper
+      ref={value => setRef(value, 'dimension')}
+      height={height}
+      width={width}
     >
-      <Wrapper
-        ref={value => setRef(value, 'dimension')}
-        height={height}
-        width={width}
+      <Resizable
+        className="handle"
+        defaultSize={{
+          height: 75,
+          width: 75
+        }}
+        lockAspectRatio
+        onResize={(e, direction, ref, d) => {
+          changeRefSize(index, ref);
+          changeRefTextDimension(index, ref);
+        }}
+        onResizeStop={(e, direction, ref, d) => {
+          changeSize(id, ref);
+        }}
       >
-        <Resizable
-          className="handle"
-          defaultSize={{
-            height: 75,
-            width: 75
-          }}
-          lockAspectRatio
-          onResize={(e, direction, ref, d) => {
-            changeRefSize(index, ref);
-            changeRefTextDimension(index, ref);
-          }}
-          onResizeStop={(e, direction, ref, d) => {
-            changeSize(id, ref);
-          }}
-        >
-          <Image
-            ref={value => setRef(value, 'size')}
-            source={url}
-            height={height}
-            width={width}
-            transform={transform}
+        <Image
+          ref={value => setRef(value, 'size')}
+          source={url}
+          height={height}
+          width={width}
+          transform={transform}
+        />
+      </Resizable>
+      <Dimension ref={value => setRef(value, 'textDimension')}>
+        {height}x{width} (px)
+      </Dimension>
+      <OptionsView>
+        <OptionButton onClick={() => handleRemove(id)}>
+          <OptionIcon
+            source="https://icon.now.sh/delete/333"
+            title="Remove sticker"
           />
-        </Resizable>
-        <Dimension ref={value => setRef(value, 'textDimension')}>
-          {height}x{width} (px)
-        </Dimension>
-        <OptionsView>
-          <OptionButton onClick={() => handleRemove(id)}>
-            <OptionIcon
-              source="https://icon.now.sh/delete/333"
-              title="Remove sticker"
-            />
-          </OptionButton>
-          <OptionButton onClick={() => changeRotate(id, 'right', transform)}>
-            <OptionIcon
-              source="https://icon.now.sh/rotate_right/333"
-              title="Rotate right sticker"
-            />
-          </OptionButton>
-          <OptionButton onClick={() => changeRotate(id, 'left', transform)}>
-            <OptionIcon
-              source="https://icon.now.sh/rotate_left/333"
-              title="Rotate left sticker"
-            />
-          </OptionButton>
-        </OptionsView>
-      </Wrapper>
-    </Draggable>
-  );
-};
+        </OptionButton>
+        <OptionButton onClick={() => changeRotate(id, 'right', transform)}>
+          <OptionIcon
+            source="https://icon.now.sh/rotate_right/333"
+            title="Rotate right sticker"
+          />
+        </OptionButton>
+        <OptionButton onClick={() => changeRotate(id, 'left', transform)}>
+          <OptionIcon
+            source="https://icon.now.sh/rotate_left/333"
+            title="Rotate left sticker"
+          />
+        </OptionButton>
+      </OptionsView>
+    </Wrapper>
+  </Draggable>
+);
 
 export default Sticker;

@@ -148,6 +148,7 @@ const Filter = ({ onFilter }) => {
 
   useLayoutEffect(() => {
     window.addEventListener('keydown', escModal, false);
+
     return () => {
       window.removeEventListener('keydown', escModal, false);
     };
@@ -161,43 +162,45 @@ const Filter = ({ onFilter }) => {
     if (event.keyCode === 27) setOpen(false);
   };
 
-  const getQuantityChecked = () => {
-    return categories.filter(({ isChecked }) => isChecked).length;
-  };
+  const getQuantityChecked = () =>
+    categories.filter(({ isChecked }) => isChecked).length;
 
   const handleCheckChange = event => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
 
-    setCategories(prevState => {
-      return [...prevState].filter(x => {
+    setCategories(prevState =>
+      [...prevState].filter(x => {
         if (x.name === target.value) x.isChecked = value;
         return x;
-      });
-    });
+      })
+    );
   };
 
   const actionConfirm = () => {
     const list = categories
       .filter(({ isChecked }) => isChecked)
       .map(({ name }) => name);
+
     onFilter(list);
     setOpen(!open);
   };
 
   const actionClean = () => {
-    setCategories(prevState => {
-      return [...prevState].filter(x => {
+    setCategories(prevState =>
+      [...prevState].filter(x => {
         if (x.isChecked) x.isChecked = false;
         return x;
-      });
-    });
+      })
+    );
+
     onFilter([]);
     setOpen(!open);
   };
 
   if (!open) {
     const quantity = getQuantityChecked();
+
     return (
       <Open
         onClick={openModal}

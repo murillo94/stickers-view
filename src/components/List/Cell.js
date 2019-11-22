@@ -47,9 +47,7 @@ const Cell = ({
         style={{ transition: 'transform 0.2s linear', willChange: 'transform' }}
         loader={<Loader height={80} width={80} />}
         unloader={'Error :('}
-        container={img => {
-          return <Image>{img}</Image>;
-        }}
+        container={img => <Image>{img}</Image>}
       />
     </Wrapper>
   </div>

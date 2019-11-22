@@ -56,8 +56,9 @@ const ViewStickers = ({
   };
 
   const changeRotate = (id, position, transform) => {
-    let rotate = Number(transform.replace(/[^0-9\.?-]+/g, '')) || 0;
+    const rotate = Number(transform.replace(/[^0-9\.?-]+/g, '')) || 0;
     const res = position === 'right' ? rotate + 15 : rotate + -15;
+
     handleSelect(id, { transform: `rotate(${res}deg)` });
   };
 
@@ -69,8 +70,9 @@ const ViewStickers = ({
   };
 
   const changeRefSize = (pos, ref) => {
-    let itemDimension = refs.dimension[pos];
-    let itemSize = refs.size[pos];
+    const itemDimension = refs.dimension[pos];
+    const itemSize = refs.size[pos];
+
     itemDimension.style.height = ref.style.height;
     itemDimension.style.width = ref.style.width;
     itemSize.style.height = ref.style.height;
@@ -78,7 +80,8 @@ const ViewStickers = ({
   };
 
   const changeRefTextDimension = (pos, ref) => {
-    let item = refs.textDimension[pos];
+    const item = refs.textDimension[pos];
+
     item.innerHTML = `${parseInt(ref.style.height)}x${parseInt(
       ref.style.width
     )} (px)`;
