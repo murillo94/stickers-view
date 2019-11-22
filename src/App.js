@@ -5,7 +5,6 @@ import List from './components/List/List';
 import ViewStickers from './components/View/ViewStickers';
 
 import stickers from './data/stickers.json';
-import { source, dimensions } from './data/url';
 
 const GlobalStyle = createGlobalStyle`
   html,
@@ -192,16 +191,9 @@ const App = () => {
   return (
     <Wrapper>
       <GlobalStyle />
-      <List
-        data={stickers}
-        source={source}
-        dimensions={dimensions}
-        handleSelect={handleSelect}
-      />
+      <List data={stickers} handleSelect={handleSelect} />
       <ViewStickers
         data={selected}
-        source={source}
-        dimensions={dimensions}
         handleSelect={handleSelect}
         handleRemove={handleRemove}
       />

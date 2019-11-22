@@ -1,18 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import Img from 'react-image';
 
+import Image from '../shared/Image';
 import Loader from './Loader';
-
-const Image = styled.div`
-  height: 100%;
-  width: 100%;
-  font-size: 13px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 const Wrapper = styled.div`
   height: 80px;
@@ -30,24 +20,16 @@ const Wrapper = styled.div`
   }
 `;
 
-const Cell = ({
-  item = {},
-  style = {},
-  source = '',
-  dimensions = '',
-  handleSelect = null
-}) => (
+const Cell = ({ item = {}, style = {}, handleSelect = null }) => (
   <div style={style}>
     <Wrapper onClick={() => handleSelect(item.id)}>
-      <Img
-        src={source + item.id + dimensions}
+      <Image
+        id={item.id}
         alt={item.title}
         height={52}
         width={52}
-        style={{ transition: 'transform 0.2s linear', willChange: 'transform' }}
         loader={<Loader height={80} width={80} />}
-        unloader={'Error :('}
-        container={img => <Image>{img}</Image>}
+        style={{ transition: 'transform 0.2s linear', willChange: 'transform' }}
       />
     </Wrapper>
   </div>

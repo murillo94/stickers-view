@@ -36,55 +36,14 @@ const Drag = styled.div`
 
 const ViewStickers = ({
   data = [],
-  source = '',
-  dimensions = '',
   handleSelect = null,
   handleRemove = null
 }) => {
-  let refs = {
-    dimension: [],
-    size: [],
-    textDimension: []
-  };
-
-  const setRef = (ref, type) => {
-    if (ref) refs[type].push(ref);
-  };
-
-  const changePosition = (id, posX, posY) => {
-    handleSelect(id, { posX, posY });
-  };
-
   const changeRotate = (id, position, transform) => {
     const rotate = Number(transform.replace(/[^0-9\.?-]+/g, '')) || 0;
     const res = position === 'right' ? rotate + 15 : rotate + -15;
 
     handleSelect(id, { transform: `rotate(${res}deg)` });
-  };
-
-  const changeSize = (id, ref) => {
-    handleSelect(id, {
-      height: parseInt(ref.style.height),
-      width: parseInt(ref.style.width)
-    });
-  };
-
-  const changeRefSize = (pos, ref) => {
-    const itemDimension = refs.dimension[pos];
-    const itemSize = refs.size[pos];
-
-    itemDimension.style.height = ref.style.height;
-    itemDimension.style.width = ref.style.width;
-    itemSize.style.height = ref.style.height;
-    itemSize.style.width = ref.style.width;
-  };
-
-  const changeRefTextDimension = (pos, ref) => {
-    const item = refs.textDimension[pos];
-
-    item.innerHTML = `${parseInt(ref.style.height)}x${parseInt(
-      ref.style.width
-    )} (px)`;
   };
 
   return (
@@ -96,20 +55,10 @@ const ViewStickers = ({
             <Sticker
               key={key}
               id={id}
-              index={key}
-              posX={data[id].posX}
-              posY={data[id].posY}
-              height={data[id].height}
-              width={data[id].width}
               transform={data[id].transform}
-              url={source + data[id].id + dimensions}
-              setRef={setRef}
+              urlId={data[id].id}
               handleRemove={handleRemove}
-              changePosition={changePosition}
-              changeSize={changeSize}
               changeRotate={changeRotate}
-              changeRefSize={changeRefSize}
-              changeRefTextDimension={changeRefTextDimension}
             />
           ))}
         </Drag>
