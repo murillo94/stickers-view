@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Img from 'react-image';
 
@@ -16,9 +16,8 @@ const Wrapper = styled.div`
 
 const unloadMessage = 'Error :(';
 
-const Image = forwardRef(({ id, alt, height, width, loader, style }, ref) => (
+const Image = ({ id, alt, height, width, loader, style }) => (
   <Img
-    ref={ref}
     src={source + id + dimensions}
     alt={alt}
     height={height}
@@ -28,6 +27,6 @@ const Image = forwardRef(({ id, alt, height, width, loader, style }, ref) => (
     container={img => <Wrapper>{img}</Wrapper>}
     style={style}
   />
-));
+);
 
 export default Image;

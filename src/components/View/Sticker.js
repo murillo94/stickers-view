@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { memo, useState } from 'react';
 import styled from 'styled-components';
 import Draggable from 'react-draggable';
 import Resizable from 're-resizable';
@@ -79,97 +79,110 @@ const Wrapper = styled.div`
   }
 `;
 
-const Sticker = ({ id, urlId, handleRemove }) => {
-  const wrapperRef = useRef({
-    style: {
+const Sticker = memo(
+  ({ id, urlId }) => {
+    const [dimensions, setDimensios] = useState({
       height: '75px',
-      width: '75px',
+      width: '75px'
+    });
+    const [position, setPosition] = useState({
       posX: 25,
-      posY: 25,
+      posY: 25
+    });
+    const [transform, setTransform] = useState({
       transform: 'rotate(0deg)'
-    }
-  });
-  const imageRef = useRef(null);
+    });
+    const [visible, setVisible] = useState(true);
 
-  const { height, width, posX, posY, transform } = wrapperRef.current.style;
-  console.log('1', height, width, posX, posY, transform);
+    const { height, width } = dimensions;
+    const { posX, posY } = position;
 
-  const changePosition = (posX, posY) => {
-    console.log('changePosition', posX, posY);
-    wrapperRef.current.style.posX = posX;
-    wrapperRef.current.style.posY = posY;
-  };
+    const changePosition = (posX, posY) => {
+      setPosition({
+        posX,
+        posY
+      });
+    };
 
-  const changeRefSize = ref => {
-    const { height, width } = ref.style;
-    console.log('changeRefSize', height, width);
-    wrapperRef.current.style.height = height;
-    wrapperRef.current.style.width = width;
-    imageRef.current.style.height = height;
-    imageRef.current.style.width = width;
-  };
+    const changeRefSize = ref => {
+      const { height, width } = ref.style;
 
-  const changeRotate = (position, transform) => {
-    const rotate = Number(transform.replace(/[^0-9\.?-]+/g, '')) || 0;
-    const res = position === 'right' ? rotate + 15 : rotate + -15;
-    console.log('changeRotate', res);
-    wrapperRef.current.style.transform = `rotate(${res}deg)`;
-  };
+      setDimensios({
+        height,
+        width
+      });
+    };
 
-  return (
-    <Draggable
-      key={id}
-      bounds="parent"
-      handle=".handle"
-      defaultPosition={{ x: posX, y: posY }}
-      onStop={(e, { x, y }) => changePosition(x, y)}
-    >
-      <Wrapper ref={wrapperRef} height={height} width={width}>
-        <Resizable
-          className="handle"
-          lockAspectRatio
-          defaultSize={{
-            height: 75,
-            width: 75
-          }}
-          onResize={(e, direction, ref, d) => {
-            changeRefSize(ref);
-          }}
-        >
-          <Image
-            ref={imageRef}
-            id={urlId}
-            height={height}
-            width={width}
-            style={{ transform }}
-          />
-        </Resizable>
-        <Dimension>
-          {height}x{width} (px)
-        </Dimension>
-        <OptionsView>
-          <OptionButton onClick={() => handleRemove(id)}>
-            <OptionIcon
-              source="https://icon.now.sh/delete/333"
-              title="Remove sticker"
-            />
-          </OptionButton>
-          <OptionButton onClick={() => changeRotate('right', transform)}>
-            <OptionIcon
-              source="https://icon.now.sh/rotate_right/333"
-              title="Rotate right sticker"
-            />
-          </OptionButton>
-          <OptionButton onClick={() => changeRotate('left', transform)}>
-            <OptionIcon
-              source="https://icon.now.sh/rotate_left/333"
-              title="Rotate left sticker"
-            />
-          </OptionButton>
-        </OptionsView>
-      </Wrapper>
-    </Draggable>
-  );
-};
+    const changeRotate = (position, transform) => {
+      const rotate = Number(transform.replace(/[^0-9\.?-]+/g, '')) || 0;
+      const res = position === 'right' ? rotate + 15 : rotate + -15;
+
+      setTransform({ transform: `rotate(${res}deg)` });
+    };
+
+    const handleRemove = () => {
+      setVisible(!visible);
+    };
+
+    return (
+      <>
+        {visible ? (
+          <Draggable
+            key={id}
+            bounds="parent"
+            handle=".handle"
+            defaultPosition={{ x: posX, y: posY }}
+            onStop={(e, { x, y }) => changePosition(x, y)}
+          >
+            <Wrapper height={height} width={width}>
+              <Resizable
+                className="handle"
+                lockAspectRatio
+                defaultSize={{
+                  height: 75,
+                  width: 75
+                }}
+                onResize={(e, direction, ref, d) => {
+                  changeRefSize(ref);
+                }}
+              >
+                <Image
+                  id={urlId}
+                  height={height}
+                  width={width}
+                  style={{ transform }}
+                />
+              </Resizable>
+              <Dimension>
+                {height}x{width} (px)
+              </Dimension>
+              <OptionsView>
+                <OptionButton onClick={handleRemove}>
+                  <OptionIcon
+                    source="https://icon.now.sh/delete/333"
+                    title="Remove sticker"
+                  />
+                </OptionButton>
+                <OptionButton onClick={() => changeRotate('right', transform)}>
+                  <OptionIcon
+                    source="https://icon.now.sh/rotate_right/333"
+                    title="Rotate right sticker"
+                  />
+                </OptionButton>
+                <OptionButton onClick={() => changeRotate('left', transform)}>
+                  <OptionIcon
+                    source="https://icon.now.sh/rotate_left/333"
+                    title="Rotate left sticker"
+                  />
+                </OptionButton>
+              </OptionsView>
+            </Wrapper>
+          </Draggable>
+        ) : null}
+      </>
+    );
+  },
+  (prevProps, nextProps) => prevProps.id === nextProps.id
+);
 
 export default Sticker;

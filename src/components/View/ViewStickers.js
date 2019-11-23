@@ -34,7 +34,7 @@ const Drag = styled.div`
   left: 0;
 `;
 
-const ViewStickers = ({ data = [], handleRemove = null }) => (
+const ViewStickers = ({ data = [] }) => (
   <Wrapper>
     <View>
       <Image src={macImage} />
@@ -45,7 +45,6 @@ const ViewStickers = ({ data = [], handleRemove = null }) => (
             id={id}
             transform={data[id].transform}
             urlId={data[id].id}
-            handleRemove={handleRemove}
           />
         ))}
       </Drag>
