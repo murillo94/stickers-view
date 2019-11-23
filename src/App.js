@@ -130,18 +130,12 @@ const Wrapper = styled.div`
 const App = () => {
   const [selectedStickers, setSelectedStickers] = useState({});
 
-  const handleSelect = id => {
+  const handleAddSticker = id => {
     const list = { ...selectedStickers };
-    const key = id + Object.keys(list).length;
+    const listLength = Object.keys(list).length;
+    const key = id + listLength;
 
-    list[key] = {
-      id,
-      posX: 25,
-      posY: 25,
-      height: 75,
-      width: 75,
-      transform: 'rotate(0deg)'
-    };
+    list[key] = { id };
 
     setSelectedStickers(list);
   };
@@ -149,7 +143,7 @@ const App = () => {
   return (
     <Wrapper>
       <GlobalStyle />
-      <List data={stickers} handleSelect={handleSelect} />
+      <List data={stickers} handleAddSticker={handleAddSticker} />
       <ViewStickers data={selectedStickers} />
     </Wrapper>
   );

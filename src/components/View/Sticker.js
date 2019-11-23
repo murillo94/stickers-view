@@ -13,7 +13,7 @@ const Dimension = styled.div`
   cursor: default;
   pointer-events: none;
   user-select: none;
-  opacity: 0;
+  opacity: 1;
 `;
 
 const OptionsView = styled.div`
@@ -59,8 +59,8 @@ const OptionIcon = styled.div.attrs(({ title }) => {
 `;
 
 const Wrapper = styled.div`
-  height: ${({ height }) => height};
-  width: ${({ width }) => width};
+  height: ${({ height }) => height}px;
+  width: ${({ width }) => width}px;
   position: absolute;
   cursor: grab;
 
@@ -81,43 +81,29 @@ const Wrapper = styled.div`
 
 const Sticker = memo(
   ({ id, urlId }) => {
-    const [dimensions, setDimensios] = useState({
-      height: '75px',
-      width: '75px'
-    });
-    const [position, setPosition] = useState({
-      posX: 25,
-      posY: 25
-    });
-    const [transform, setTransform] = useState({
-      transform: 'rotate(0deg)'
-    });
+    const [position, setPosition] = useState({ posX: 25, posY: 25 });
+    const [dimension, setDimension] = useState({ height: 75, width: 75 });
+    const [transform, setTransform] = useState('rotate(0deg)');
     const [visible, setVisible] = useState(true);
 
-    const { height, width } = dimensions;
     const { posX, posY } = position;
+    const { height, width } = dimension;
 
     const changePosition = (posX, posY) => {
-      setPosition({
-        posX,
-        posY
-      });
+      setPosition({ posX, posY });
     };
 
-    const changeRefSize = ref => {
+    const changeDimension = ref => {
       const { height, width } = ref.style;
 
-      setDimensios({
-        height,
-        width
-      });
+      setDimension({ height: parseInt(height), width: parseInt(width) });
     };
 
-    const changeRotate = (position, transform) => {
+    const changeTransform = (position, transform) => {
       const rotate = Number(transform.replace(/[^0-9\.?-]+/g, '')) || 0;
       const res = position === 'right' ? rotate + 15 : rotate + -15;
 
-      setTransform({ transform: `rotate(${res}deg)` });
+      setTransform(`rotate(${res}deg)`);
     };
 
     const handleRemove = () => {
@@ -143,7 +129,7 @@ const Sticker = memo(
                   width: 75
                 }}
                 onResize={(e, direction, ref, d) => {
-                  changeRefSize(ref);
+                  changeDimension(ref);
                 }}
               >
                 <Image
@@ -163,13 +149,17 @@ const Sticker = memo(
                     title="Remove sticker"
                   />
                 </OptionButton>
-                <OptionButton onClick={() => changeRotate('right', transform)}>
+                <OptionButton
+                  onClick={() => changeTransform('right', transform)}
+                >
                   <OptionIcon
                     source="https://icon.now.sh/rotate_right/333"
                     title="Rotate right sticker"
                   />
                 </OptionButton>
-                <OptionButton onClick={() => changeRotate('left', transform)}>
+                <OptionButton
+                  onClick={() => changeTransform('left', transform)}
+                >
                   <OptionIcon
                     source="https://icon.now.sh/rotate_left/333"
                     title="Rotate left sticker"

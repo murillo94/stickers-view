@@ -28,7 +28,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const List = ({ data, handleSelect }) => {
+const List = ({ data, handleAddSticker }) => {
   const [list, setList] = useState(data);
   const [count, setCount] = useState(data.length);
   const [height, setHeight] = useState(0);
@@ -58,13 +58,13 @@ const List = ({ data, handleSelect }) => {
   const renderCellGrid = ({ rowIndex, columnIndex, style }) => {
     const item = list[rowIndex * columns + columnIndex];
 
-    return !item.blank ? <Cell {...{ item, style, handleSelect }} /> : null;
+    return !item.blank ? <Cell {...{ item, style, handleAddSticker }} /> : null;
   };
 
   const renderCellList = ({ index, style }) => {
     const item = list[index];
 
-    return <Cell {...{ item, style, handleSelect }} />;
+    return <Cell {...{ item, style, handleAddSticker }} />;
   };
 
   const recalcSize = () => {

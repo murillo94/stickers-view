@@ -40,12 +40,7 @@ const ViewStickers = ({ data = [] }) => (
       <Image src={macImage} />
       <Drag>
         {Object.keys(data).map((id, key) => (
-          <Sticker
-            key={key}
-            id={id}
-            transform={data[id].transform}
-            urlId={data[id].id}
-          />
+          <Sticker key={key} id={id} urlId={data[id].id} />
         ))}
       </Drag>
     </View>
