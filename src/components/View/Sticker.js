@@ -5,6 +5,10 @@ import Resizable from 're-resizable';
 
 import Image from '../shared/Image';
 
+const remove = require('../../assets/remove.svg');
+const rotate_right = require('../../assets/rotate_right.svg');
+const rotate_left = require('../../assets/rotate_left.svg');
+
 const Dimension = styled.div`
   font-size: 13px;
   background-color: transparent;
@@ -144,16 +148,13 @@ const Sticker = memo(
               </Dimension>
               <OptionsView>
                 <OptionButton onClick={handleRemove}>
-                  <OptionIcon
-                    source="https://icon.now.sh/delete/333"
-                    title="Remove sticker"
-                  />
+                  <OptionIcon source={remove} title="Remove sticker" />
                 </OptionButton>
                 <OptionButton
                   onClick={() => changeTransform('right', transform)}
                 >
                   <OptionIcon
-                    source="https://icon.now.sh/rotate_right/333"
+                    source={rotate_right}
                     title="Rotate right sticker"
                   />
                 </OptionButton>
@@ -161,7 +162,7 @@ const Sticker = memo(
                   onClick={() => changeTransform('left', transform)}
                 >
                   <OptionIcon
-                    source="https://icon.now.sh/rotate_left/333"
+                    source={rotate_left}
                     title="Rotate left sticker"
                   />
                 </OptionButton>

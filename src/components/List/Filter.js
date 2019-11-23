@@ -3,6 +3,9 @@ import styled, { keyframes } from 'styled-components';
 
 import stickers from '../../data/stickers.json';
 
+const filter = require('../../assets/filter.svg');
+const close = require('../../assets/close.svg');
+
 const FadeIn = keyframes`
   from {
     transform: scale(0.9);
@@ -198,11 +201,7 @@ const Filter = ({ onFilter }) => {
     const quantity = categories.filter(({ isChecked }) => isChecked).length;
 
     return (
-      <Open
-        onClick={openModal}
-        source="https://icon.now.sh/filter_list/333"
-        title="Open categories"
-      >
+      <Open onClick={openModal} source={filter} title="Open categories">
         {quantity > 0 && <Quantity>{quantity}</Quantity>}
       </Open>
     );
@@ -210,11 +209,7 @@ const Filter = ({ onFilter }) => {
 
   return (
     <Wrapper>
-      <Close
-        onClick={openModal}
-        source="https://icon.now.sh/close/333"
-        title="Close categories"
-      />
+      <Close onClick={openModal} source={close} title="Close categories" />
       <Title>Filter by Categories</Title>
       {categories.map((item, index) => (
         <Label key={index}>
