@@ -133,17 +133,17 @@ const getTags = () => {
         .map(({ tags }) => {
           return tags;
         })
-        .reduce((x, y) => x.concat(y), [])
+        .reduce((acc, tag) => [...acc, ...tag], [])
     )
   ];
 
-  return unique.map(x => {
-    return { name: x, isChecked: false };
+  return unique.map(name => {
+    return { name, isChecked: false };
   });
 };
 
 const Filter = ({ onFilter }) => {
-  const [open, setOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [categories, setCategories] = useState(getTags());
 
   useLayoutEffect(() => {
@@ -155,23 +155,19 @@ const Filter = ({ onFilter }) => {
   }, []);
 
   const openModal = () => {
-    setOpen(!open);
+    setVisible(!visible);
   };
 
   const escModal = event => {
-    if (event.keyCode === 27) setOpen(false);
+    if (event.keyCode === 27) setVisible(false);
   };
 
-  const getQuantityChecked = () =>
-    categories.filter(({ isChecked }) => isChecked).length;
-
-  const handleCheckChange = event => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+  const onChangeCheck = event => {
+    const { checked, value } = event.target;
 
     setCategories(prevState =>
       [...prevState].filter(x => {
-        if (x.name === target.value) x.isChecked = value;
+        if (x.name === value) x.isChecked = checked;
         return x;
       })
     );
@@ -183,7 +179,7 @@ const Filter = ({ onFilter }) => {
       .map(({ name }) => name);
 
     onFilter(list);
-    setOpen(!open);
+    setVisible(!visible);
   };
 
   const actionClean = () => {
@@ -195,11 +191,11 @@ const Filter = ({ onFilter }) => {
     );
 
     onFilter([]);
-    setOpen(!open);
+    setVisible(!visible);
   };
 
-  if (!open) {
-    const quantity = getQuantityChecked();
+  if (!visible) {
+    const quantity = categories.filter(({ isChecked }) => isChecked).length;
 
     return (
       <Open
@@ -227,7 +223,7 @@ const Filter = ({ onFilter }) => {
             name="categories"
             value={item.name}
             checked={item.isChecked}
-            onChange={handleCheckChange}
+            onChange={onChangeCheck}
           />
           <span>{item.name}</span>
         </Label>
