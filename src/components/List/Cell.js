@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 
 const Cell = ({ item = {}, style = {}, handleAddSticker = null }) => (
   <div style={style}>
-    <Wrapper onClick={() => handleAddSticker(item.id)}>
+    <Wrapper onClick={() => handleAddSticker(item.id, item.title)}>
       <Image
         id={item.id}
         alt={item.title}

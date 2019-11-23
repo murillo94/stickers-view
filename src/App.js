@@ -130,12 +130,12 @@ const Wrapper = styled.div`
 const App = () => {
   const [selectedStickers, setSelectedStickers] = useState({});
 
-  const handleAddSticker = id => {
+  const handleAddSticker = (id, title) => {
     const list = { ...selectedStickers };
     const listLength = Object.keys(list).length;
     const key = id + listLength;
 
-    list[key] = { id };
+    list[key] = { id, title };
 
     setSelectedStickers(list);
   };

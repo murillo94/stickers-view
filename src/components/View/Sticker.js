@@ -84,7 +84,7 @@ const Wrapper = styled.div`
 `;
 
 const Sticker = memo(
-  ({ id, urlId }) => {
+  ({ id, urlId, title }) => {
     const [position, setPosition] = useState({ posX: 25, posY: 25 });
     const [dimension, setDimension] = useState({ height: 75, width: 75 });
     const [transform, setTransform] = useState('rotate(0deg)');
@@ -138,6 +138,7 @@ const Sticker = memo(
               >
                 <Image
                   id={urlId}
+                  alt={title}
                   height={height}
                   width={width}
                   style={{ transform }}

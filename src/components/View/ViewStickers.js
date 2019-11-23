@@ -37,10 +37,15 @@ const Drag = styled.div`
 const ViewStickers = ({ data = [] }) => (
   <Wrapper>
     <View>
-      <Image src={macImage} />
+      <Image src={macImage} alt="mac" />
       <Drag>
         {Object.keys(data).map((id, key) => (
-          <Sticker key={key} id={id} urlId={data[id].id} />
+          <Sticker
+            key={key}
+            id={id}
+            urlId={data[id].id}
+            title={data[id].title}
+          />
         ))}
       </Drag>
     </View>

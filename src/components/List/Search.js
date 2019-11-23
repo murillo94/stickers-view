@@ -114,17 +114,21 @@ const Search = ({ actionSearch, handleAddSticker }) => {
 
     if (newValue.length === 0) {
       const list = filter.length ? filter : stickers;
+
       actionSearch(list);
     }
   };
 
   const onSuggestionsFetchRequested = ({ value }) => {
     const list = filter.length ? filter : stickers;
+
     setSuggestions(getSuggestions(value, list));
   };
 
   const onSuggestionSelected = (event, { suggestion }) => {
-    handleAddSticker(suggestion.id);
+    const { id, title } = suggestion;
+
+    handleAddSticker(id, title);
     setValue('');
   };
 
