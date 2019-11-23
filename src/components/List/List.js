@@ -88,7 +88,7 @@ const List = ({ data, handleAddSticker }) => {
 
   return (
     <Container>
-      <Search actionSearch={searchData} />
+      <Search actionSearch={searchData} handleAddSticker={handleAddSticker} />
       <Wrapper id="list">
         {fullWidth > 991 ? (
           <FixedSizeGrid

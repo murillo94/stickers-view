@@ -86,7 +86,7 @@ const renderSuggestion = ({ title, id }) => (
   </Suggestion>
 );
 
-const renderSuggestionsContainer = ({
+const Suggestions = ({
   containerProps,
   children,
   query,
@@ -104,7 +104,7 @@ const renderSuggestionsContainer = ({
 
 const shouldRenderSuggestions = () => true;
 
-const Search = ({ actionSearch }) => {
+const Search = ({ actionSearch, handleAddSticker }) => {
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [filter, setFilter] = useState([]);
@@ -120,16 +120,12 @@ const Search = ({ actionSearch }) => {
 
   const onSuggestionsFetchRequested = ({ value }) => {
     const list = filter.length ? filter : stickers;
-
     setSuggestions(getSuggestions(value, list));
   };
 
-  const onSuggestionsClearRequested = () => {
-    setSuggestions([]);
-  };
-
   const onSuggestionSelected = (event, { suggestion }) => {
-    actionSearch([suggestion]);
+    handleAddSticker(suggestion.id);
+    setValue('');
   };
 
   const onSuggestionSelectedAll = () => {
@@ -155,20 +151,21 @@ const Search = ({ actionSearch }) => {
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-          onSuggestionsClearRequested={onSuggestionsClearRequested}
           onSuggestionSelected={onSuggestionSelected}
           getSuggestionValue={getSuggestionValue}
           shouldRenderSuggestions={shouldRenderSuggestions}
           highlightFirstSuggestion
           renderSuggestion={renderSuggestion}
-          renderSuggestionsContainer={({ containerProps, children, query }) =>
-            renderSuggestionsContainer({
-              containerProps,
-              children,
-              query,
-              onSuggestionSelectedAll
-            })
-          }
+          renderSuggestionsContainer={({ containerProps, children, query }) => (
+            <Suggestions
+              {...{
+                containerProps,
+                children,
+                query,
+                onSuggestionSelectedAll
+              }}
+            />
+          )}
           inputProps={{
             type: 'search',
             placeholder: 'Try "JavaScript"',
