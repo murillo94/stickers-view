@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Autosuggest from 'react-autosuggest';
-import Img from 'react-image';
 
+import Image from '../shared/Image';
 import Filter from './Filter';
 import Loader from './Loader';
+
 import stickers from '../../data/stickers.json';
-import { source, dimensions } from '../../data/url';
 
 const Wrapper = styled.div`
   display: flex;
@@ -40,19 +40,6 @@ const BoxImage = styled.div`
   margin-right: 10px;
 `;
 
-const Image = styled.div`
-  height: 100%;
-  width: 100%;
-  font-size: 13px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 2px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 1px,
-    rgba(0, 0, 0, 0.1) 0px 1px 3px -2px, rgba(0, 0, 0, 0.15) 0px 5px 15px -5px;
-`;
-
 const Footer = styled.div`
   color: #ff596f;
   padding: 12px 20px;
@@ -82,15 +69,16 @@ const getSuggestionValue = ({ title }) => title;
 const renderSuggestion = ({ title, id }) => (
   <Suggestion>
     <BoxImage>
-      <Img
-        src={source + id + dimensions}
+      <Image
+        id={id}
         alt={title}
         height={22}
         width={22}
         loader={<Loader height={22} width={22} />}
-        unloader={'Error :('}
-        container={img => {
-          return <Image>{img}</Image>;
+        style={{
+          borderRadius: '2px',
+          boxShadow:
+            'rgba(0, 0, 0, 0.1) 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px -2px, rgba(0, 0, 0, 0.15) 0px 5px 15px -5px'
         }}
       />
     </BoxImage>
@@ -98,7 +86,7 @@ const renderSuggestion = ({ title, id }) => (
   </Suggestion>
 );
 
-const renderSuggestionsContainer = ({
+const Suggestions = ({
   containerProps,
   children,
   query,
@@ -116,13 +104,14 @@ const renderSuggestionsContainer = ({
 
 const shouldRenderSuggestions = () => true;
 
-const Search = ({ actionSearch }) => {
+const Search = ({ actionSearch, handleAddSticker }) => {
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [filter, setFilter] = useState([]);
 
   const onChange = (event, { newValue }) => {
     setValue(newValue);
+
     if (newValue.length === 0) {
       const list = filter.length ? filter : stickers;
       actionSearch(list);
@@ -134,12 +123,9 @@ const Search = ({ actionSearch }) => {
     setSuggestions(getSuggestions(value, list));
   };
 
-  const onSuggestionsClearRequested = () => {
-    setSuggestions([]);
-  };
-
   const onSuggestionSelected = (event, { suggestion }) => {
-    actionSearch([suggestion]);
+    handleAddSticker(suggestion.id);
+    setValue('');
   };
 
   const onSuggestionSelectedAll = () => {
@@ -153,6 +139,7 @@ const Search = ({ actionSearch }) => {
           tags.some(name => categories.includes(name))
         )
       : stickers;
+
     setFilter(list);
     actionSearch(list);
   };
@@ -164,20 +151,21 @@ const Search = ({ actionSearch }) => {
         <Autosuggest
           suggestions={suggestions}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-          onSuggestionsClearRequested={onSuggestionsClearRequested}
           onSuggestionSelected={onSuggestionSelected}
           getSuggestionValue={getSuggestionValue}
           shouldRenderSuggestions={shouldRenderSuggestions}
-          highlightFirstSuggestion={true}
+          highlightFirstSuggestion
           renderSuggestion={renderSuggestion}
-          renderSuggestionsContainer={({ containerProps, children, query }) =>
-            renderSuggestionsContainer({
-              containerProps,
-              children,
-              query,
-              onSuggestionSelectedAll
-            })
-          }
+          renderSuggestionsContainer={({ containerProps, children, query }) => (
+            <Suggestions
+              {...{
+                containerProps,
+                children,
+                query,
+                onSuggestionSelectedAll
+              }}
+            />
+          )}
           inputProps={{
             type: 'search',
             placeholder: 'Try "JavaScript"',

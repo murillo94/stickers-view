@@ -133,71 +133,70 @@ const getTags = () => {
         .map(({ tags }) => {
           return tags;
         })
-        .reduce((x, y) => x.concat(y), [])
+        .reduce((acc, tag) => [...acc, ...tag], [])
     )
   ];
 
-  return unique.map(x => {
-    return { name: x, isChecked: false };
+  return unique.map(name => {
+    return { name, isChecked: false };
   });
 };
 
 const Filter = ({ onFilter }) => {
-  const [open, setOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [categories, setCategories] = useState(getTags());
 
   useLayoutEffect(() => {
     window.addEventListener('keydown', escModal, false);
+
     return () => {
       window.removeEventListener('keydown', escModal, false);
     };
   }, []);
 
   const openModal = () => {
-    setOpen(!open);
+    setVisible(!visible);
   };
 
   const escModal = event => {
-    if (event.keyCode === 27) setOpen(false);
+    if (event.keyCode === 27) setVisible(false);
   };
 
-  const getQuantityChecked = () => {
-    return categories.filter(({ isChecked }) => isChecked).length;
-  };
+  const onChangeCheck = event => {
+    const { checked, value } = event.target;
 
-  const handleCheckChange = event => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-
-    setCategories(prevState => {
-      return [...prevState].filter(x => {
-        if (x.name === target.value) x.isChecked = value;
+    setCategories(prevState =>
+      [...prevState].filter(x => {
+        if (x.name === value) x.isChecked = checked;
         return x;
-      });
-    });
+      })
+    );
   };
 
   const actionConfirm = () => {
     const list = categories
       .filter(({ isChecked }) => isChecked)
       .map(({ name }) => name);
+
     onFilter(list);
-    setOpen(!open);
+    setVisible(!visible);
   };
 
   const actionClean = () => {
-    setCategories(prevState => {
-      return [...prevState].filter(x => {
+    setCategories(prevState =>
+      [...prevState].filter(x => {
         if (x.isChecked) x.isChecked = false;
         return x;
-      });
-    });
+      })
+    );
+
     onFilter([]);
-    setOpen(!open);
+    setVisible(!visible);
   };
 
-  if (!open) {
-    const quantity = getQuantityChecked();
+  if (!visible) {
+    const quantity = categories.filter(({ isChecked }) => isChecked).length;
+
     return (
       <Open
         onClick={openModal}
@@ -224,7 +223,7 @@ const Filter = ({ onFilter }) => {
             name="categories"
             value={item.name}
             checked={item.isChecked}
-            onChange={handleCheckChange}
+            onChange={onChangeCheck}
           />
           <span>{item.name}</span>
         </Label>

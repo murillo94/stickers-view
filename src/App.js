@@ -1,10 +1,10 @@
-import React, { useReducer } from 'react';
+import React, { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import stickers from './data/stickers.json';
-import { source, dimensions } from './data/url';
 import List from './components/List/List';
 import ViewStickers from './components/View/ViewStickers';
+
+import stickers from './data/stickers.json';
 
 const GlobalStyle = createGlobalStyle`
   html,
@@ -127,83 +127,24 @@ const Wrapper = styled.div`
   }
 `;
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'add': {
-      let { id } = action;
-      const list = { ...state };
-      const key = list[id] ? id : id + Object.keys(list).length;
-
-      list[key] = {
-        id,
-        posX: 25,
-        posY: 25,
-        height: 75,
-        width: 75,
-        transform: 'rotate(0deg)'
-      };
-
-      return list;
-    }
-    case 'move': {
-      let { id, args } = action;
-      const list = { ...state };
-      const key = list[id] ? id : id + Object.keys(list).length;
-
-      Object.keys(args[0]).map(value => {
-        list[key][value] = args[0][value];
-      });
-
-      return list;
-    }
-    case 'remove': {
-      let { index } = action;
-      const list = { ...state };
-      const listFiltered = Object.keys(list)
-        .filter(key => key !== index)
-        .reduce((obj, key) => {
-          obj[key] = list[key];
-          return obj;
-        }, {});
-      return listFiltered;
-    }
-    default: {
-      return state;
-    }
-  }
-};
-
 const App = () => {
-  const [selected, dispatch] = useReducer(reducer, []);
+  const [selectedStickers, setSelectedStickers] = useState({});
 
-  const handleSelect = (id, ...args) => {
-    if (args.length > 0) {
-      dispatch({ type: 'move', id, args });
-    } else {
-      dispatch({ type: 'add', id });
-    }
-  };
+  const handleAddSticker = id => {
+    const list = { ...selectedStickers };
+    const listLength = Object.keys(list).length;
+    const key = id + listLength;
 
-  const handleRemove = index => {
-    dispatch({ type: 'remove', index });
+    list[key] = { id };
+
+    setSelectedStickers(list);
   };
 
   return (
     <Wrapper>
       <GlobalStyle />
-      <List
-        data={stickers}
-        source={source}
-        dimensions={dimensions}
-        handleSelect={handleSelect}
-      />
-      <ViewStickers
-        data={selected}
-        source={source}
-        dimensions={dimensions}
-        handleSelect={handleSelect}
-        handleRemove={handleRemove}
-      />
+      <List data={stickers} handleAddSticker={handleAddSticker} />
+      <ViewStickers data={selectedStickers} />
     </Wrapper>
   );
 };

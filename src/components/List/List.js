@@ -28,7 +28,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const List = ({ data, source, dimensions, handleSelect }) => {
+const List = ({ data, handleAddSticker }) => {
   const [list, setList] = useState(data);
   const [count, setCount] = useState(data.length);
   const [height, setHeight] = useState(0);
@@ -38,7 +38,9 @@ const List = ({ data, source, dimensions, handleSelect }) => {
 
   useLayoutEffect(() => {
     recalcSize();
+
     window.addEventListener('resize', recalcSize);
+
     return () => {
       window.removeEventListener('resize', recalcSize);
     };
@@ -48,6 +50,7 @@ const List = ({ data, source, dimensions, handleSelect }) => {
     while (data.length % columns) {
       data.push({ blank: true });
     }
+
     setList(data);
     setCount(data.length);
   };
@@ -55,14 +58,13 @@ const List = ({ data, source, dimensions, handleSelect }) => {
   const renderCellGrid = ({ rowIndex, columnIndex, style }) => {
     const item = list[rowIndex * columns + columnIndex];
 
-    return !item.blank ? (
-      <Cell {...{ item, style, source, dimensions, handleSelect }} />
-    ) : null;
+    return !item.blank ? <Cell {...{ item, style, handleAddSticker }} /> : null;
   };
 
   const renderCellList = ({ index, style }) => {
     const item = list[index];
-    return <Cell {...{ item, style, source, dimensions, handleSelect }} />;
+
+    return <Cell {...{ item, style, handleAddSticker }} />;
   };
 
   const recalcSize = () => {
@@ -86,7 +88,7 @@ const List = ({ data, source, dimensions, handleSelect }) => {
 
   return (
     <Container>
-      <Search actionSearch={searchData} />
+      <Search actionSearch={searchData} handleAddSticker={handleAddSticker} />
       <Wrapper id="list">
         {fullWidth > 991 ? (
           <FixedSizeGrid
